@@ -9,4 +9,4 @@ buildscript {
     }
 }
 
-apply plugin: "io.franzbecker.gradle-lombok"
+apply plugin: io.franzbecker.gradle.lombok.LombokPlugin
