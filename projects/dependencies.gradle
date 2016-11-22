@@ -1,0 +1,39 @@
+configurations.all {
+	// check for updates every build
+	resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+ext.versions = [
+    slf4j: '1.7.21',
+    logback: '1.1.7',
+    commons_lang3: '3.4',
+    commons_lang: '2.6',
+    guava: '19.0',
+    junit: '4.12',
+    mockito: '2.0.54-beta',
+    assertj: '3.4.1',
+    spock: '1.0-groovy-2.4'
+]
+
+dependencies {
+	compile (
+		"org.slf4j:slf4j-api:${versions.slf4j}",			
+		"org.slf4j:jul-to-slf4j:${versions.slf4j}",
+		"org.apache.commons:commons-lang3:${versions.commons_lang3}",
+		"commons-lang:commons-lang:${versions.commons_lang}",
+		"com.google.guava:guava:${versions.guava}"
+	)
+	testCompile (
+		"org.codehaus.groovy:groovy-all:[2,3)",
+		"junit:junit:${versions.junit}",
+    	"org.mockito:mockito-core:${versions.mockito}",
+    	"org.assertj:assertj-core:${versions.assertj}",
+		"org.spockframework:spock-core:${versions.spock}"
+	)
+	runtime (
+		"ch.qos.logback:logback-classic:${versions.logback}",
+		"ch.qos.logback:logback-access:${versions.logback}",
+		"org.slf4j:log4j-over-slf4j:${versions.slf4j}",
+		"org.slf4j:jcl-over-slf4j:${versions.slf4j}"
+	)       
+}

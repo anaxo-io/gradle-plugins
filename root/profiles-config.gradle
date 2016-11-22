@@ -1,0 +1,13 @@
+def loadConfiguration() {
+    def profile = hasProperty('profile') ? profile : 'dev'
+    ext.profile = profile
+    def configFile = file('config.groovy')
+    def config = new ConfigSlurper(profile).parse(configFile.toURI().toURL())
+    ext.config = config
+}
+
+configure (subprojects) {
+    loadConfiguration()
+    profile = profile //inject property into sub-project
+    config = config
+}

@@ -1,0 +1,36 @@
+sourceSets {
+    integrationTest {
+        groovy.srcDir file('src/integration-test/groovy')
+        java {
+    	    compileClasspath += main.output + test.output
+    	    runtimeClasspath += main.output + test.output
+        	srcDir file('src/integration-test/java')
+    	}
+    	resources.srcDir file('src/integration-test/resources')
+        compileClasspath += sourceSets.main.output + configurations.testRuntime
+        runtimeClasspath += output + compileClasspath
+    }
+}
+
+plugins.withType(org.gradle.plugins.ide.idea.IdeaPlugin) {
+    idea {
+        module {
+            testSourceDirs += file('src/integration-test/java')
+        }
+    }
+}
+
+task integrationTest(type: Test) {
+    description = 'Runs the integration tests.'
+    group = 'verification'
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    mustRunAfter test
+
+    reports {
+        html.destination = project.file("$html.destination/integration")
+        junitXml.destination = project.file("$junitXml.destination/integration")
+    }
+}
+
+check.dependsOn integrationTest

@@ -1,0 +1,49 @@
+buildscript {
+	repositories {
+		mavenCentral()
+		maven { url "https://plugins.gradle.org/m2/" }
+	}
+	dependencies {
+		classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2"
+	}
+}
+
+apply plugin: org.sonarqube.gradle.SonarQubePlugin
+
+sonarqube {
+	properties {
+		property "sonar.sourceEncoding", "UTF-8"
+		/*
+         * The only code Sonar actually analyzes is in "sonar.sources". It uses "sonar.java.binaries" and
+         * "sonar.java.libraries" for inspections that require bytecode. The values of these properties are
+         * all taken from a Java project's "main" SourceSet.
+         *
+         * There are analogous properties for the "test" SourceSet: "sonar.tests", "sonar.java.test.binaries",
+         * and "sonar.java.test.libraries". If we want our test code to be analyzed along with our main code,
+         * we need to add the values of the "test" properties to their "main" counterparts.
+         *
+         * After that, we set the values of those "test" properties to the empty string, which instructs Sonar
+         * to not do its normal reporting of test successes and failures. As mentioned before, we don't want
+         * Sonar doing that; we already have Jenkins.
+         */
+		properties["sonar.sources"] = nukeDupesPomFilesAndNonExistent(files(properties["sonar.sources"] ?: []).flatten())
+		properties["sonar.tests"] = nukeDupesPomFilesAndNonExistent(files(properties["sonar.tests"] ?: []).flatten())
+
+		properties["sonar.java.binaries"] = nukeDupesPomFilesAndNonExistent(files(properties["sonar.java.binaries"] ?: []).flatten())
+		properties["sonar.java.test.binaries"] = nukeDupesPomFilesAndNonExistent(files(properties["sonar.java.test.binaries"] ?: []).flatten())
+
+		properties["sonar.java.libraries"] = nukeDupesPomFilesAndNonExistent(files(properties["sonar.java.libraries"] ?: []).flatten())
+		properties["sonar.java.test.libraries"] = nukeDupesPomFilesAndNonExistent(files(properties["sonar.java.test.libraries"] ?: []).flatten())
+	}
+}
+
+// Returns the provided files, minus any duplicates or files that don't exist.
+Set<File> nukeDupesPomFilesAndNonExistent(Iterable<File> files) {
+	Set<File> ret = new LinkedHashSet<File>()
+	files.each {
+		if (it.exists() && !it.path.endsWith('pom') ) {
+			ret << it
+		}
+	}
+	ret
+}

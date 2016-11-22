@@ -1,0 +1,35 @@
+allprojects {
+    apply plugin:'java'
+    apply plugin:'idea'
+
+    tasks.create( [ name: 'testJar', type: Jar,
+                    group: 'build', description: 'Assembles a jar archive containing the test classes.',
+                    dependsOn: tasks.testClasses] ) {
+        manifest = tasks.jar.manifest
+        classifier = 'tests'
+        from sourceSets.test.output
+    }
+
+    // for test dependencies between modules
+    // usage: testCompile project(path: ':module', configuration: 'tests')
+    configurations {
+        testFixturesRuntime.extendsFrom testRuntime
+        testFixturesCompile.extendsFrom testCompile
+    }
+
+    plugins.withType(org.gradle.plugins.ide.idea.IdeaPlugin) {
+        idea {
+            module {
+                scopes.PROVIDED.plus.add(configurations.testFixturesCompile)
+                scopes.PROVIDED.plus.add(configurations.testFixturesRuntime)
+            }
+        }
+    }
+
+    artifacts {
+        archives testJar
+        testFixturesRuntime testJar
+    }
+
+    tasks.uploadArchives.dependsOn testJar
+}

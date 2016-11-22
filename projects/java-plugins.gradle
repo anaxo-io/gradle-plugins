@@ -1,0 +1,24 @@
+apply plugin:'java'
+apply plugin:'groovy'
+apply plugin:'project-report'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+compileJava {
+    options.compilerArgs << '-parameters'
+    //options.compilerArgs << '-Xlint:unchecked'
+}
+
+compileTestJava {
+    options.compilerArgs << '-parameters'
+    //options.compilerArgs << '-Xlint:unchecked'
+}
+
+tasks.javadoc {
+    options.links(
+		"http://docs.oracle.com/javase/8/docs/api/",
+		"https://google.github.io/guice/api-docs/latest/javadoc/"
+	)
+	options.linkSource true
+}

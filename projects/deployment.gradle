@@ -1,0 +1,32 @@
+buildscript {
+    repositories.jcenter()
+    dependencies.classpath 'com.netflix.nebula:nebula-publishing-plugin:4.9.1'
+    dependencies.classpath 'com.netflix.nebula:nebula-release-plugin:4.1.0'
+}
+
+apply plugin: 'java'
+apply plugin: nebula.plugin.publishing.maven.MavenBasePublishPlugin
+apply plugin: nebula.plugin.publishing.maven.MavenResolvedDependenciesPlugin
+apply plugin: nebula.plugin.publishing.maven.MavenNebulaPublishPlugin
+apply plugin: nebula.plugin.publishing.publications.JavadocJarPlugin
+apply plugin: nebula.plugin.publishing.publications.SourceJarPlugin
+apply plugin: nebula.plugin.publishing.publications.TestJarPlugin
+apply plugin: nebula.plugin.release.ReleasePlugin
+
+publishing {
+    repositories {
+        maven {
+            url "${nexusUrl}/repository/maven-${project.version.toString().endsWith('-SNAPSHOT') ? 'snapshots' : 'releases' }"
+            credentials {
+                username nexusUsername
+                password nexusPassword
+            }
+        }
+    }
+}
+
+release {
+    defaultVersionStrategy = org.ajoberstar.gradle.git.release.opinion.Strategies.SNAPSHOT
+}
+
+tasks.release.finalizedBy tasks.publish

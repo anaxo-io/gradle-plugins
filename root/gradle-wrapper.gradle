@@ -1,0 +1,15 @@
+allprojects {
+    repositories {
+        mavenLocal()
+        maven {
+            url "${nexusUrl}/repository/maven-public/"
+        }
+        jcenter()
+        mavenCentral()
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.1'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-bin.zip"
+}
