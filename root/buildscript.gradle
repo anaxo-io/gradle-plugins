@@ -5,8 +5,8 @@ buildscript {
     	}
     }
     dependencies {
-        classpath "io.franzbecker:gradle-lombok:1.6"
+        classpath "io.franzbecker:gradle-lombok:1.8"
     }
 }
 
-apply plugin: "gradle-lombok"
+apply plugin: "io.franzbecker.gradle-lombok"
