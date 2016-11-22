@@ -1,3 +1,10 @@
-plugins {
-    id 'io.franzbecker.gradle-lombok' version '1.6'
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "io.franzbecker:gradle-lombok:1.6"
+    }
 }
+
+apply plugin: 'gradle-lombok'
