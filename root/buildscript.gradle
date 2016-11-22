@@ -9,4 +9,4 @@ buildscript {
     }
 }
 
-apply plugin: "gradle-lombok
+apply plugin: "gradle-lombok"
