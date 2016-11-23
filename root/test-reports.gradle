@@ -1,81 +1,97 @@
-apply plugin: 'java'
-apply plugin:'jacoco'
-
 // Disable the test report for the individual test task
 subprojects {
-    apply plugin:'jacoco'
-    test {
-        reports.html.enabled = false
-    }
+    subprojects { p ->
+        p.plugins.withType(JavaPlugin) {
+            test {
+                reports.html.enabled = false
+            }
+        }
+    }    
 }
 
 task testReport(type: TestReport) {
     destinationDir = file("$buildDir/reports/allTests")
     // Include the results from the `test` task in all subprojects
-    reportOn subprojects*.test
-}
-
-task codeCoverageReport(type: JacocoReport) {
-
-    // Gather execution data from all subprojects
-    // (change this if you e.g. want to calculate unit test/integration test coverage separately)
-    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
-
-    // Add all relevant sourcesets from the current project
-    sourceSets rootProject.sourceSets.main
-
-    // Add all relevant sourcesets from the subprojects
-    subprojects.each {
-        sourceSets it.sourceSets.main
-    }
-
-    reports {
-        html.enabled true
-        html.destination "${buildDir}/reports/jacoco"
-        xml.enabled false
-        csv.enabled false
-    }
-
-    onlyIf = {
-        true
-    }
-
-    doFirst {
-        executionData = files(executionData.findAll {
-            it.exists()
-        })
+    subprojects { p ->
+        p.plugins.withType(JavaPlugin) {
+            reportOn test
+        }
     }
 }
 
-// always run the tests before generating the report
-codeCoverageReport.dependsOn {
-    subprojects*.test
-}
 
-//test.finalizedBy testReport, codeCoverageReport
+gradle.projectsEvaluated {
+    
+    task codeCoverageReport(type: JacocoReport) {
 
-allprojects {
-    test {
-        jacoco {
-            append = false
-            destinationFile = file("$buildDir/jacoco/test.exec")
-            classDumpFile = file("$buildDir/jacoco/classpathdumps")
+        // Gather execution data from all subprojects
+        // (change this if you e.g. want to calculate unit test/integration test coverage separately)
+        executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+        
+        def additionalSources = files()
+        def sources = files()
+        def classes = files()
+        def execs = files()
+        subprojects.each {
+            if (it.plugins.hasPlugin('java')) {
+                additionalSources += files(it.sourceSets.main.allJava.srcDirs)
+                sources += files(it.sourceSets.main.allSource.srcDirs)
+                classes += files(it.sourceSets.main.output)
+            }
         }
 
-        testLogging {
-            events "failed", "standardOut", "standardError"
+        additionalSourceDirs = additionalSources
+        sourceDirectories = sources
+        classDirectories = classes
+        executionData = execs
+
+        reports {
+            html.enabled true
+            html.destination "${buildDir}/reports/jacoco"
+            xml.enabled false
+            csv.enabled false
         }
 
-        testLogging.showStandardStreams = true
+        onlyIf = {
+            true
+        }
 
-        minHeapSize = "64m"
-        maxHeapSize = "256m"
-
-        finalizedBy testReport, codeCoverageReport
+        doFirst {
+            executionData = files(executionData.findAll {
+                it.exists()
+            })
+        }
     }
 
-    jacoco {
-        toolVersion = "0.7.7.201606060606"
-        reportsDir = file("$buildDir/reports/jacoco")
+    codeCoverageReport.dependsOn subprojects.check
+        
+    allprojects { p ->
+        apply plugin: 'jacoco'
+
+        p.plugins.withType(JavaPlugin) {
+            test {
+                jacoco {
+                    append = false
+                    destinationFile = file("$buildDir/jacoco/test.exec")
+                    classDumpFile = file("$buildDir/jacoco/classpathdumps")
+                }
+
+                testLogging {
+                    events "failed", "standardOut", "standardError"
+                }
+
+                testLogging.showStandardStreams = true
+
+                minHeapSize = "64m"
+                maxHeapSize = "256m"
+
+                finalizedBy testReport, codeCoverageReport
+            }
+
+            jacoco {
+                toolVersion = "0.7.7.201606060606"
+                reportsDir = file("$buildDir/reports/jacoco")
+            }
+        }
     }
 }

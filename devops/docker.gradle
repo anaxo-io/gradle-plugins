@@ -1,0 +1,40 @@
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath 'com.bmuschko:gradle-docker-plugin:3.0.0'
+  }
+}
+
+apply plugin: 'base'
+apply plugin: com.bmuschko.gradle.docker.DockerRemoteApiPlugin
+
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+
+build.dependsOn("createDockerfile")
+
+task copyTar(type: Copy, dependsOn: ":${project.ext.imageSource}:build") {
+    from project(":${project.ext.imageSource}").collect { it.tasks.withType(Tar) }
+    into "$buildDir"
+}
+
+task createDockerfile(type: Dockerfile, dependsOn: copyTar) {
+    destFile = project.file("$buildDir/Dockerfile")
+    from 'java'
+    maintainer 'Hicham Medkouri "info@anaxo.io"'
+    addFile "${project.ext.imageSource}-${version}.tar", '/'
+    entryPoint "/${project.ext.imageSource}-${version}/bin/${project.imageSource}"
+    exposePort project.imagePort
+    label version: "${version}"
+}
+
+task dockerBuildImage(type:Exec, dependsOn: createDockerfile) {
+   group = 'docker' 
+   commandLine 'docker', 'build', '-t', project.ext.imageName, "$buildDir"
+}
+ 
+task dockerPushImage(type:Exec, dependsOn: dockerBuildImage) {   
+   group = 'docker' 
+   commandLine 'docker', 'push', project.ext.imageName
+}

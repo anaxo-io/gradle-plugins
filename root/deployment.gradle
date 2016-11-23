@@ -4,7 +4,6 @@ buildscript {
     dependencies.classpath 'com.netflix.nebula:nebula-release-plugin:4.1.0'
 }
 
-apply plugin: 'java'
 apply plugin: nebula.plugin.publishing.maven.MavenBasePublishPlugin
 apply plugin: nebula.plugin.publishing.maven.MavenResolvedDependenciesPlugin
 apply plugin: nebula.plugin.publishing.maven.MavenNebulaPublishPlugin
