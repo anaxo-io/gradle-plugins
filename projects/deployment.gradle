@@ -11,7 +11,9 @@ apply plugin: nebula.plugin.publishing.maven.MavenNebulaPublishPlugin
 apply plugin: nebula.plugin.publishing.publications.JavadocJarPlugin
 apply plugin: nebula.plugin.publishing.publications.SourceJarPlugin
 apply plugin: nebula.plugin.publishing.publications.TestJarPlugin
-apply plugin: nebula.plugin.release.ReleasePlugin
+allprojects {
+    apply plugin: nebula.plugin.release.ReleasePlugin
+}
 
 publishing {
     repositories {
