@@ -5,9 +5,7 @@
 Add to the root `build.gradle`
 
 ```
-buildscript {
-    apply from: "https://raw.githubusercontent.com/anaxo-io/gradle-plugins/master/root/buildscript.gradle", to: buildscript
-}
+apply from: "https://raw.githubusercontent.com/anaxo-io/gradle-plugins/master/root/buildscript.gradle"
 apply from: "https://raw.githubusercontent.com/anaxo-io/gradle-plugins/master/root/gradle-wrapper.gradle"
 apply from: "https://raw.githubusercontent.com/anaxo-io/gradle-plugins/master/root/profiles-config.gradle"
 apply from: "https://raw.githubusercontent.com/anaxo-io/gradle-plugins/master/root/test-reports.gradle"
