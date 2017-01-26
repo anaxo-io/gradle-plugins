@@ -3,10 +3,13 @@ buildscript {
         maven {
     	  url "https://plugins.gradle.org/m2/"
     	}
+    	 mavenCentral()
     }
     dependencies {
         classpath "io.franzbecker:gradle-lombok:1.8"
+        classpath "org.hidetake:gradle-ssh-plugin:2.7.2"
     }
 }
 
 apply plugin: io.franzbecker.gradle.lombok.LombokPlugin
+apply plugin: org.hidetake.gradle.ssh.plugin.SshPlugin

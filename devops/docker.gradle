@@ -1,16 +1,26 @@
 buildscript {
   repositories {
     jcenter()
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
   }
   dependencies {
-    classpath 'com.bmuschko:gradle-docker-plugin:3.0.0'
+    classpath 'com.bmuschko:gradle-docker-plugin:3.0.5'
+    classpath 'gradle.plugin.com.patdouble:gradle-aws-ecr-plugin:0.1.4'
   }
 }
 
 apply plugin: 'base'
 apply plugin: com.bmuschko.gradle.docker.DockerRemoteApiPlugin
+apply plugin: com.patdouble.gradle.awsecr.AwsecrPlugin
 
-import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+import com.bmuschko.gradle.docker.tasks.image.*
+
+def AWS_ACCESS_KEY_ID = System.getenv("AWS_ACCESS_KEY_ID")
+def AWS_SECRET_ACCESS_KEY = System.getenv("AWS_SECRET_ACCESS_KEY")
+
+ext.repository = '038337692500.dkr.ecr.ap-southeast-1.amazonaws.com'    
 
 build.dependsOn("createDockerfile")
 
@@ -26,15 +36,17 @@ task createDockerfile(type: Dockerfile, dependsOn: copyTar) {
     addFile "${project.ext.imageSource}-${version}.tar", '/'
     entryPoint "/${project.ext.imageSource}-${version}/bin/${project.imageSource}"
     exposePort project.imagePort
-    label version: "${version}"
+    label version: "${version}"    
 }
 
-task dockerBuildImage(type:Exec, dependsOn: createDockerfile) {
-   group = 'docker' 
-   commandLine 'docker', 'build', '-t', project.ext.imageName, "$buildDir"
+task dockerBuildImage(type:DockerBuildImage, dependsOn: createDockerfile) {
+   group = 'docker'   
+   inputDir = project.buildDir
+   tag = "${project.repository}/${project.ext.imageName}:latest"
 }
  
-task dockerPushImage(type:Exec, dependsOn: dockerBuildImage) {   
+task dockerPushImage(type: DockerPushImage, dependsOn: dockerBuildImage) {   
    group = 'docker' 
-   commandLine 'docker', 'push', project.ext.imageName
+   ext.repository = "https://${project.repository}"
+   imageName = "${dockerBuildImage.tag}"
 }
