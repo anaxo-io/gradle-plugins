@@ -17,7 +17,7 @@ apply plugin: com.patdouble.gradle.awsecr.AwsecrPlugin
 
 import com.bmuschko.gradle.docker.tasks.image.*
 
-afterEvaluate {
+//afterEvaluate {
 
   def AWS_ACCESS_KEY_ID = System.getenv("AWS_ACCESS_KEY_ID")
   def AWS_SECRET_ACCESS_KEY = System.getenv("AWS_SECRET_ACCESS_KEY")
@@ -52,4 +52,4 @@ afterEvaluate {
      ext.repository = "https://${project.repository}"
      imageName = "${dockerBuildImage.tag}"
   }
-}
+//}
