@@ -35,10 +35,10 @@ afterEvaluate {
       destFile = project.file("$buildDir/Dockerfile")
       from 'java'
       maintainer 'Hicham Medkouri "info@anaxo.io"'
-      addFile "${project.ext.imageSource}-${project.version}.tar", '/'
-      entryPoint "/${project.ext.imageSource}-${project.version}/bin/${project.imageSource}"
+      addFile "${project.ext.imageSource}-${version}.tar", '/'
+      entryPoint "/${project.ext.imageSource}-${version}/bin/${project.imageSource}"
       exposePort project.imagePort
-      label version: "${project.version}"    
+      label version: "${version}"    
   }
 
   task dockerBuildImage(type:DockerBuildImage, dependsOn: createDockerfile) {
