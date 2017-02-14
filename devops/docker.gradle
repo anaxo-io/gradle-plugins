@@ -46,10 +46,12 @@ afterEvaluate {
      inputDir = project.buildDir
      tag = "${project.repository}/${project.ext.imageName}:latest"
   }
-   
+  
   task dockerPushImage(type: DockerPushImage, dependsOn: dockerBuildImage) {   
      group = 'docker' 
      ext.repository = "https://${project.repository}"
      imageName = "${dockerBuildImage.tag}"
   }
+
+  tasks.release.finalizedBy tasks.dockerBuildImage
 }
