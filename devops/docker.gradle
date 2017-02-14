@@ -53,5 +53,4 @@ afterEvaluate {
      imageName = "${dockerBuildImage.tag}"
   }
 
-  tasks.publish.finalizedBy tasks.dockerBuildImage
 }
