@@ -17,36 +17,39 @@ apply plugin: com.patdouble.gradle.awsecr.AwsecrPlugin
 
 import com.bmuschko.gradle.docker.tasks.image.*
 
-def AWS_ACCESS_KEY_ID = System.getenv("AWS_ACCESS_KEY_ID")
-def AWS_SECRET_ACCESS_KEY = System.getenv("AWS_SECRET_ACCESS_KEY")
+afterEvaluate {
 
-ext.repository = '038337692500.dkr.ecr.ap-southeast-1.amazonaws.com'    
+  def AWS_ACCESS_KEY_ID = System.getenv("AWS_ACCESS_KEY_ID")
+  def AWS_SECRET_ACCESS_KEY = System.getenv("AWS_SECRET_ACCESS_KEY")
 
-build.dependsOn("createDockerfile")
+  ext.repository = '038337692500.dkr.ecr.ap-southeast-1.amazonaws.com'    
 
-task copyTar(type: Copy, dependsOn: ":${project.ext.imageSource}:build") {
-    from project(":${project.ext.imageSource}").collect { it.tasks.withType(Tar) }
-    into "$buildDir"
-}
+  build.dependsOn("createDockerfile")
 
-task createDockerfile(type: Dockerfile, dependsOn: copyTar) {
-    destFile = project.file("$buildDir/Dockerfile")
-    from 'java'
-    maintainer 'Hicham Medkouri "info@anaxo.io"'
-    addFile "${project.ext.imageSource}-${version}.tar", '/'
-    entryPoint "/${project.ext.imageSource}-${version}/bin/${project.imageSource}"
-    exposePort project.imagePort
-    label version: "${version}"    
-}
+  task copyTar(type: Copy, dependsOn: ":${project.ext.imageSource}:build") {
+      from project(":${project.ext.imageSource}").collect { it.tasks.withType(Tar) }
+      into "$buildDir"
+  }
 
-task dockerBuildImage(type:DockerBuildImage, dependsOn: createDockerfile) {
-   group = 'docker'   
-   inputDir = project.buildDir
-   tag = "${project.repository}/${project.ext.imageName}:latest"
-}
- 
-task dockerPushImage(type: DockerPushImage, dependsOn: dockerBuildImage) {   
-   group = 'docker' 
-   ext.repository = "https://${project.repository}"
-   imageName = "${dockerBuildImage.tag}"
+  task createDockerfile(type: Dockerfile, dependsOn: copyTar) {
+      destFile = project.file("$buildDir/Dockerfile")
+      from 'java'
+      maintainer 'Hicham Medkouri "info@anaxo.io"'
+      addFile "${project.ext.imageSource}-${project.version}.tar", '/'
+      entryPoint "/${project.ext.imageSource}-${project.version}/bin/${project.imageSource}"
+      exposePort project.imagePort
+      label version: "${project.version}"    
+  }
+
+  task dockerBuildImage(type:DockerBuildImage, dependsOn: createDockerfile) {
+     group = 'docker'   
+     inputDir = project.buildDir
+     tag = "${project.repository}/${project.ext.imageName}:latest"
+  }
+   
+  task dockerPushImage(type: DockerPushImage, dependsOn: dockerBuildImage) {   
+     group = 'docker' 
+     ext.repository = "https://${project.repository}"
+     imageName = "${dockerBuildImage.tag}"
+  }
 }
