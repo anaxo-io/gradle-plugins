@@ -51,5 +51,3 @@ task dockerPushImage(type: DockerPushImage, dependsOn: dockerBuildImage) {
    ext.repository = "https://${project.repository}"
    imageName = "${dockerBuildImage.tag}"
 }
-
-tasks.DockerPushImage.dependsOn = tasks.publish
