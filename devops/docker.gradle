@@ -52,4 +52,4 @@ task dockerPushImage(type: DockerPushImage, dependsOn: dockerBuildImage) {
    imageName = "${dockerBuildImage.tag}"
 }
 
-tasks.DockerPushImage.dependsOn = tasks.final
+tasks.DockerPushImage.dependsOn = tasks.publish
