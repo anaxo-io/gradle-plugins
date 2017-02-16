@@ -4,8 +4,8 @@ configurations.all {
 }
 
 ext.versions = [
-    slf4j: '1.7.21',
-    logback: '1.1.7',
+    slf4j: '1.7.23',
+    logback: '1.2.1',
     commons_lang3: '3.4',
     commons_lang: '2.6',
     guava: '19.0',
