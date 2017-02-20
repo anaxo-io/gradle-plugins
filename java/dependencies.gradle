@@ -17,7 +17,7 @@ ext.versions = [
 
 dependencies {
 	compile (
-		"org.slf4j:slf4j-api:${versions.slf4j}",			
+		"org.slf4j:slf4j-api:${versions.slf4j}",
 		"org.slf4j:jul-to-slf4j:${versions.slf4j}",
 		"org.apache.commons:commons-lang3:${versions.commons_lang3}",
 		"commons-lang:commons-lang:${versions.commons_lang}",
