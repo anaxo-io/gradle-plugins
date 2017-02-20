@@ -11,7 +11,7 @@ ext.versions = [
     guava: '19.0',
     junit: '4.12',
     mockito: '2.0.54-beta',
-    assertj: '3.4.1',
+    assertj: '3.6.2',
     spock: '1.0-groovy-2.4'
 ]
 
