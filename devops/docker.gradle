@@ -30,7 +30,7 @@ task copyTar(type: Copy, dependsOn: ":${project.ext.imageSource}:build") {
     into "$buildDir"
 }
 
-task createDockerfile(type: Dockerfile, dependsOn: copyTar) {
+task createDockerfile(type: Dockerfile) {
     destFile = project.file("$buildDir/Dockerfile")
     from 'java'
     maintainer 'Hicham Medkouri "info@anaxo.io"'
@@ -45,7 +45,7 @@ task createDockerfile(type: Dockerfile, dependsOn: copyTar) {
     label version: "${version}"    
 }
 
-task dockerBuildImage(type:DockerBuildImage, dependsOn: createDockerfile) {
+task dockerBuildImage(type:DockerBuildImage, dependsOn: [createDockerfile, copyTar]) {
    group = 'docker'   
    inputDir = project.buildDir
    tag = "${project.repository}/${project.ext.imageName}:latest"
