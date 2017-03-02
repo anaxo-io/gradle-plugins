@@ -34,15 +34,15 @@ task createDockerfile(type: Dockerfile) {
     destFile = project.file("$buildDir/Dockerfile")
     from 'java'
     maintainer 'Hicham Medkouri "info@anaxo.io"'
+    label version: "${version}"
 
     runCommand "apt-get update -y && apt-get install -y curl tar bash wget openssl"
-    runCommand "wget --no-check-certificate https://github.com/jwilder/dockerize/releases/download/v0.2.0/dockerize-linux-amd64-v0.2.0.tar.gz"
-    runCommand "tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.2.0.tar.gz"
+    runCommand "wget --no-check-certificate https://github.com/jwilder/dockerize/releases/download/v0.3.0/dockerize-linux-amd64-v0.3.0.tar.gz"
+    runCommand "tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.3.0.tar.gz"
 
     addFile "${project.ext.imageSource}-${version}.tar", '/'
     entryPoint "/usr/local/bin/dockerize", "-wait", "tcp://neo4j:7687", "/${project.ext.imageSource}-${version}/bin/${project.imageSource}"
-    exposePort project.imagePort
-    label version: "${version}"    
+    exposePort project.imagePort        
 }
 
 task dockerBuildImage(type:DockerBuildImage, dependsOn: [createDockerfile, copyTar]) {
