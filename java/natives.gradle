@@ -1,8 +1,18 @@
-plugins {
-    id 'com.stehno.natives' version '0.3.0'
-    id 'java'
-    id 'application'
+buildscript {
+  repositories {
+    jcenter()
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {    
+    classpath 'gradle.plugin.com.stehno.gradle-natives:gradle-natives:0.3.0'
+  }
 }
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: com.stehno.natives.NativesPlugin
 
 version = "0.0.1"
 group = "com.stehno"
