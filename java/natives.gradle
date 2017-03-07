@@ -13,21 +13,3 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: com.stehno.gradle.natives.NativesPlugin
-
-version = "0.0.1"
-group = "com.stehno"
-mainClassName = 'hello.HelloWorld'
-
-sourceCompatibility = 8
-targetCompatibility = 8
-
-repositories {
-    jcenter()
-}
-
-dependencies {
-    compile 'org.lwjgl:lwjgl:3.0.0'
-    compile 'org.lwjgl:lwjgl-platform:3.0.0:natives-windows'
-    compile 'org.lwjgl:lwjgl-platform:3.0.0:natives-linux'
-    compile 'org.lwjgl:lwjgl-platform:3.0.0:natives-osx'
-}
