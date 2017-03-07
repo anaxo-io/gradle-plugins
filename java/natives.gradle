@@ -12,7 +12,7 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'application'
-apply plugin: com.stehno.natives.NativesPlugin
+apply plugin: "com.stehno.natives"
 
 version = "0.0.1"
 group = "com.stehno"
