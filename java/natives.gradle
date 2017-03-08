@@ -13,3 +13,24 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: com.stehno.gradle.natives.NativesPlugin
+
+natives {
+    libraries {
+        include = ['liblpsolve55.so', 'liblpsolve55j.so', 'lpsolve55.dll', 'lpsolve55j.dll']
+    }
+}
+
+mainClassName = ''
+
+processResources.dependsOn includeNatives
+
+/*
+mvn deploy:deploy-file  -DgroupId=com.acuo.solver \
+                        -DartifactId=lpsolve-platform \
+                        -Dversion=5.5.2 \
+                        -Dpackaging=jar \
+                        -DrepositoryId=nexus-acuo \
+                        -Dfile=ux64.jar \
+                        -Dclassifier=natives-linux \
+                        -Durl=https://nexus.acuo.com/repository/maven-releases
+                        */
