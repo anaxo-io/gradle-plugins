@@ -13,7 +13,7 @@ ext.versions = [
     neo4jOgm 		: '2.1.1',
     guice   		: '4.0',
     okhttp  		: '3.3.1',
-    resteasy        : '3.0.20.Final',
+    resteasy        : '3.0.21.Final',
     jackson         : '2.8.3',
     slf4j 			: '1.7.23',
     logback 		: '1.2.1',
