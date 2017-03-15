@@ -49,6 +49,7 @@ dependencies {
     )
 
     compile (
+    	"org.jboss.resteasy:resteasy-client:${versions.resteasy}",
     	"org.jboss.resteasy:resteasy-jaxrs:${versions.resteasy}",
         "org.jboss.resteasy:resteasy-guice:${versions.resteasy}",
         "org.jboss.resteasy:resteasy-html:${versions.resteasy}",
@@ -68,6 +69,7 @@ dependencies {
     	"io.dropwizard.metrics:metrics-healthchecks:${versions.metrics}",
         "io.dropwizard.metrics:metrics-jvm:${versions.metrics}",
         "io.dropwizard.metrics:metrics-servlets:${versions.metrics}",
+        "io.dropwizard.metrics:metrics-annotation:${versions.metrics}",
         "com.palominolabs.metrics:metrics-guice:${versions.metricsguice}"
     )
 
