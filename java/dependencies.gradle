@@ -3,6 +3,11 @@ configurations.all {
 	resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
+configurations {
+    all*.exclude group: 'org.neo4j.3rdparty.javax.ws.rs' , module: 'jsr311-api'
+    all*.exclude group: 'javax.ws.rs' , module: 'jsr311-api'
+}
+
 ext.versions = [
 	neo4j   		: '3.1.1',
     neo4jOgm 		: '2.1.1',
