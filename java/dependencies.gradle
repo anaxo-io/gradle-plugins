@@ -109,7 +109,8 @@ dependencies {
     	"org.assertj:assertj-core:${versions.assertj}",
 		"org.spockframework:spock-core:${versions.spock}",
 		"com.tngtech.java:junit-dataprovider:1.10.4",
-        "org.easymock:easymock:3.3"		
+        "org.easymock:easymock:3.3",
+        "com.jayway.jsonpath:json-path-assert:2.2.0"
 	)
 	
 	runtime (
