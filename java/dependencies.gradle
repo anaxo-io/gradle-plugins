@@ -79,6 +79,7 @@ dependencies {
     )
 
 	compile (
+		"org.codehaus.groovy:groovy-all:2.4.9",
 		"commons-beanutils:commons-beanutils:1.9.3",
         "ch.qos.logback:logback-access:${versions.logback}",
         "com.squareup.okhttp3:okhttp:${versions.okhttp}",
@@ -87,7 +88,9 @@ dependencies {
 		"org.slf4j:jul-to-slf4j:${versions.slf4j}",
 		"org.apache.commons:commons-lang3:${versions.commons_lang3}",
 		"commons-lang:commons-lang:${versions.commons_lang}",
-		"com.google.guava:guava:${versions.guava}"
+		"com.google.guava:guava:${versions.guava}",
+		"org.jasypt:jasypt:1.9.2"
+		//"com.smokejumperit.guice:core:1.1"
 	)
 
 	testCompile ("org.neo4j.test:neo4j-harness-enterprise:${versions.neo4j}"){
