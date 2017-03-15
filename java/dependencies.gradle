@@ -8,6 +8,8 @@ ext.versions = [
     neo4jOgm 		: '2.1.1',
     guice   		: '4.0',
     okhttp  		: '3.3.1',
+    resteasy        : '3.0.20.Final',
+    jackson         : '2.8.3'
     slf4j 			: '1.7.23',
     logback 		: '1.2.1',
     commons_lang3 	: '3.4',
@@ -44,6 +46,20 @@ dependencies {
         "com.google.inject.extensions:guice-persist:${versions.guice}",
         "com.google.inject.extensions:guice-multibindings:${versions.guice}",
         "com.google.inject.extensions:guice-assistedinject:${versions.guice}"
+    )
+
+    compile (
+    	"org.jboss.resteasy:resteasy-jaxrs:${versions.resteasy}",
+        "org.jboss.resteasy:resteasy-guice:${versions.resteasy}",
+        "org.jboss.resteasy:resteasy-html:${versions.resteasy}",
+        "org.jboss.resteasy:resteasy-jackson2-provider:${versions.resteasy}",
+        "org.jboss.resteasy:resteasy-multipart-provider:${versions.resteasy}"
+    )
+
+    compile (
+    	"com.fasterxml.jackson.datatype:jackson-datatype-jdk8:${versions.jackson}",
+        "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${versions.jackson}",
+        "com.fasterxml.jackson.datatype:jackson-datatype-joda:${versions.jackson}"
     )
 
     compile (
