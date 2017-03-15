@@ -94,7 +94,7 @@ dependencies {
 	)
 
 	testCompile ("org.neo4j.test:neo4j-harness-enterprise:${versions.neo4j}"){
-        exclude group: 'org.slf4j',
+        exclude group: 'org.slf4j'
         exclude group: 'org.neo4j', module: 'neo4j-cypher-compiler-2.3'
         exclude group: 'org.neo4j', module: 'neo4j-cypher-compiler-3.0'
         exclude group: 'org.neo4j', module: 'neo4j-cypher-frontend-2.3'
