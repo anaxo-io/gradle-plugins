@@ -4,6 +4,10 @@ configurations.all {
 }
 
 ext.versions = [
+	neo4j   : '3.1.1',
+    neo4jOgm: '2.1.1',
+    guice   : '4.0',
+    okhttp  : '3.3.1',
     slf4j: '1.7.23',
     logback: '1.2.1',
     commons_lang3: '3.4',
@@ -16,20 +20,63 @@ ext.versions = [
 ]
 
 dependencies {
+	
+	compile ("org.neo4j:neo4j-enterprise:${versions.neo4j}") {
+        exclude group: 'org.slf4j'
+        exclude group: 'org.neo4j', module: 'neo4j-cypher-compiler-2.3'
+        exclude group: 'org.neo4j', module: 'neo4j-cypher-compiler-3.0'
+        exclude group: 'org.neo4j', module: 'neo4j-cypher-frontend-2.3'
+        exclude group: 'org.neo4j', module: 'neo4j-cypher-frontend-3.0'
+    }
+    
+    compile (
+        "org.neo4j:neo4j-ogm-core:${versions.neo4jOgm}",
+        "org.neo4j:neo4j-ogm-http-driver:${versions.neo4jOgm}",
+        "org.neo4j:neo4j-ogm-bolt-driver:${versions.neo4jOgm}",
+        "org.neo4j:neo4j-ogm-embedded-driver:${versions.neo4jOgm}"
+    )
+	
 	compile (
+        "com.google.inject:guice:${versions.guice}",
+        "com.google.inject.extensions:guice-servlet:${versions.guice}",
+        "com.google.inject.extensions:guice-persist:${versions.guice}",
+        "com.google.inject.extensions:guice-multibindings:${versions.guice}",
+        "com.google.inject.extensions:guice-assistedinject:${versions.guice}"
+    )
+
+	compile (
+		"commons-beanutils:commons-beanutils:1.9.3",
+        "ch.qos.logback:logback-access:${versions.logback}",
+        "com.squareup.okhttp3:okhttp:${versions.okhttp}",
+        "com.smokejumperit.guice:core:1.1",
 		"org.slf4j:slf4j-api:${versions.slf4j}",
 		"org.slf4j:jul-to-slf4j:${versions.slf4j}",
 		"org.apache.commons:commons-lang3:${versions.commons_lang3}",
 		"commons-lang:commons-lang:${versions.commons_lang}",
 		"com.google.guava:guava:${versions.guava}"
 	)
+
+	testCompile ("org.neo4j.test:neo4j-harness-enterprise:${versions.neo4j}"){
+        exclude group: 'org.neo4j', module: 'neo4j-cypher-compiler-2.3'
+        exclude group: 'org.neo4j', module: 'neo4j-cypher-compiler-3.0'
+        exclude group: 'org.neo4j', module: 'neo4j-cypher-frontend-2.3'
+        exclude group: 'org.neo4j', module: 'neo4j-cypher-frontend-3.0'
+    }
+	
+	testCompile (
+        "org.neo4j:neo4j-ogm-test:${versions.neo4jOgm}"            
+    )
+        
 	testCompile (
 		"org.codehaus.groovy:groovy-all:[2,3)",
 		"junit:junit:${versions.junit}",
     	"org.mockito:mockito-core:${versions.mockito}",
     	"org.assertj:assertj-core:${versions.assertj}",
-		"org.spockframework:spock-core:${versions.spock}"
+		"org.spockframework:spock-core:${versions.spock}",
+		"com.tngtech.java:junit-dataprovider:1.10.4",
+        "org.easymock:easymock:3.3"		
 	)
+	
 	runtime (
 		"ch.qos.logback:logback-classic:${versions.logback}",
 		"ch.qos.logback:logback-access:${versions.logback}",
