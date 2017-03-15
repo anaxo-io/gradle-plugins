@@ -59,8 +59,8 @@ dependencies {
     compile (
     	"com.fasterxml.jackson.datatype:jackson-datatype-jdk8:${versions.jackson}",
         "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${versions.jackson}",
-        "com.fasterxml.jackson.datatype:jackson-datatype-joda:${versions.jackson}"
-    )
+        "com.fasterxml.jackson.datatype:jackson-datatype-joda:${versions.jackson}",
+        "com.xebia:jackson-lombok:1.1"
 
     compile (
     	"io.dropwizard.metrics:metrics-core:${versions.metrics}",
