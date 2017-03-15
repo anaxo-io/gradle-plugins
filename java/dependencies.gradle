@@ -110,7 +110,13 @@ dependencies {
 		"org.spockframework:spock-core:${versions.spock}",
 		"com.tngtech.java:junit-dataprovider:1.10.4",
         "org.easymock:easymock:3.3",
-        "com.jayway.jsonpath:json-path-assert:2.2.0"
+        "com.jayway.jsonpath:json-path-assert:2.2.0",
+        "org.xmlunit:xmlunit-core:2.2.0",
+        "org.xmlunit:xmlunit-matchers:2.2.0",
+        "net.javacrumbs.json-unit:json-unit:1.18.0",
+        "net.javacrumbs.json-unit:json-unit-fluent:1.18.0",
+        "io.rest-assured:rest-assured:3.0.2",
+        "io.rest-assured:json-path:3.0.2"
 	)
 	
 	runtime (
