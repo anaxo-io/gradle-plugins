@@ -48,6 +48,7 @@ dependencies {
 
     compile (
     	"io.dropwizard.metrics:metrics-core:${versions.metrics}",
+    	"io.dropwizard.metrics:metrics-adapter:${versions.metrics}",
     	"io.dropwizard.metrics:metrics-healthchecks:${versions.metrics}",
         "io.dropwizard.metrics:metrics-jvm:${versions.metrics}",
         "io.dropwizard.metrics:metrics-servlets:${versions.metrics}",
