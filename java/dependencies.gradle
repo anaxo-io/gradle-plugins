@@ -80,7 +80,7 @@ dependencies {
     )
 
 	compile (
-		"org.codehaus.groovy:groovy-all:2.4.9",
+		//"org.codehaus.groovy:groovy-all:2.4.9",
 		"commons-beanutils:commons-beanutils:1.9.3",
         "ch.qos.logback:logback-access:${versions.logback}",
         "com.squareup.okhttp3:okhttp:${versions.okhttp}",
