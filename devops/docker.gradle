@@ -41,7 +41,7 @@ task createDockerfile(type: Dockerfile) {
     runCommand "tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.3.0.tar.gz"
 
     addFile "${project.ext.imageSource}-${version}.tar", '/'
-    entryPoint "/usr/local/bin/dockerize", "-wait", "tcp://neo4j:7687", "/${project.ext.imageSource}-${version}/bin/${project.imageSource}"
+    entryPoint "/usr/local/bin/dockerize","-timeout","30","-wait", "tcp://neo4j:7687", "/${project.ext.imageSource}-${version}/bin/${project.imageSource}"
     exposePort project.imagePort        
 }
 
