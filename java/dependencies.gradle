@@ -7,6 +7,7 @@ configurations {
     all*.exclude group: 'org.neo4j.3rdparty.javax.ws.rs' , module: 'jsr311-api'
     all*.exclude group: 'javax.ws.rs' , module: 'jsr311-api'
     all*.exclude group: 'org.slf4j' , module: 'slf4j-nop'
+    all*.exclude group: 'org.codehaus.groovy', module: 'groovy-all'
 }
 
 ext.versions = [
@@ -79,8 +80,7 @@ dependencies {
         "com.palominolabs.metrics:metrics-guice:${versions.metricsguice}"
     )
 
-	compile (
-		"org.codehaus.groovy:groovy-all:2.4.10",
+	compile (		
 		"commons-beanutils:commons-beanutils:1.9.3",
         "ch.qos.logback:logback-access:${versions.logback}",
         "com.squareup.okhttp3:okhttp:${versions.okhttp}",
@@ -107,8 +107,7 @@ dependencies {
     )
         
 	testCompile (
-		"com.squareup.okhttp3:mockwebserver:${versions.okhttp}",
-		"org.codehaus.groovy:groovy-all:2.4.10",
+		"com.squareup.okhttp3:mockwebserver:${versions.okhttp}",		
 		"junit:junit:${versions.junit}",
     	"org.mockito:mockito-core:${versions.mockito}",
     	"org.assertj:assertj-core:${versions.assertj}",
