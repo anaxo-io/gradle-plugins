@@ -80,7 +80,7 @@ dependencies {
     )
 
 	compile (
-		//"org.codehaus.groovy:groovy-all:2.4.9",
+		"org.codehaus.groovy:groovy-all:2.4.10",
 		"commons-beanutils:commons-beanutils:1.9.3",
         "ch.qos.logback:logback-access:${versions.logback}",
         "com.squareup.okhttp3:okhttp:${versions.okhttp}",
@@ -108,7 +108,7 @@ dependencies {
         
 	testCompile (
 		"com.squareup.okhttp3:mockwebserver:${versions.okhttp}",
-		"org.codehaus.groovy:groovy-all:[2,3)",
+		"org.codehaus.groovy:groovy-all:2.4.10",
 		"junit:junit:${versions.junit}",
     	"org.mockito:mockito-core:${versions.mockito}",
     	"org.assertj:assertj-core:${versions.assertj}",
