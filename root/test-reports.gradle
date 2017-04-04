@@ -42,7 +42,7 @@ gradle.projectsEvaluated {
 
         additionalSourceDirs = additionalSources
         sourceDirectories = sources
-        classDirectories = classes        
+        classDirectories = classes
         executionData = execs
 
         reports {

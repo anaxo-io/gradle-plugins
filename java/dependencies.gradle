@@ -108,7 +108,7 @@ dependencies {
         
 	testCompile (
 		"org.codehaus.groovy:groovy-all:2.4.6",
-        "com.squareup.okhttp3:mockwebserver:${versions.okhttp}",		
+        "com.squareup.okhttp3:mockwebserver:${versions.okhttp}",
 		"junit:junit:${versions.junit}",
     	"org.mockito:mockito-core:${versions.mockito}",
     	"org.assertj:assertj-core:${versions.assertj}",
