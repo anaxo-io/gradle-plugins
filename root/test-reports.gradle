@@ -43,6 +43,9 @@ gradle.projectsEvaluated {
         additionalSourceDirs = additionalSources
         sourceDirectories = sources
         classDirectories = classes
+        classDirectories.each {
+            i -> print(i)
+        }
         executionData = execs
 
         reports {

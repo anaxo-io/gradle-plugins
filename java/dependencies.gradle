@@ -7,7 +7,7 @@ configurations {
     all*.exclude group: 'org.neo4j.3rdparty.javax.ws.rs' , module: 'jsr311-api'
     all*.exclude group: 'javax.ws.rs' , module: 'jsr311-api'
     all*.exclude group: 'org.slf4j' , module: 'slf4j-nop'
-    all*.exclude group: 'org.codehaus.groovy', module: 'groovy-all'
+    //all*.exclude group: 'org.codehaus.groovy', module: 'groovy-all'
 }
 
 ext.versions = [
@@ -107,7 +107,8 @@ dependencies {
     )
         
 	testCompile (
-		"com.squareup.okhttp3:mockwebserver:${versions.okhttp}",		
+		"org.codehaus.groovy:groovy-all:2.4.6",
+        "com.squareup.okhttp3:mockwebserver:${versions.okhttp}",		
 		"junit:junit:${versions.junit}",
     	"org.mockito:mockito-core:${versions.mockito}",
     	"org.assertj:assertj-core:${versions.assertj}",
