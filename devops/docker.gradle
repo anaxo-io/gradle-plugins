@@ -6,7 +6,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath 'com.bmuschko:gradle-docker-plugin:3.0.5'
+    classpath 'com.bmuschko:gradle-docker-plugin:3.0.7'
     classpath 'gradle.plugin.com.patdouble:gradle-aws-ecr-plugin:0.1.4'
   }
 }
