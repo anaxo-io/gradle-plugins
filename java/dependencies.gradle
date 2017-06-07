@@ -10,7 +10,7 @@ configurations {
 }
 
 ext.versions = [
-	neo4j   		: '3.1.2',
+	neo4j   		: '3.1.5',
     neo4jOgm 		: '2.1.3',
     guice   		: '4.1.0',
     okhttp  		: '3.3.1',
@@ -25,7 +25,7 @@ ext.versions = [
     metricsguice 	: '3.1.3',
     junit 			: '4.12',
     mockito 		: '2.0.54-beta',
-    assertj 		: '3.6.2',
+    assertj 		: '3.8.0',
     spock 			: '1.0-groovy-2.4'
 ]
 
