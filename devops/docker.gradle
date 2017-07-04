@@ -49,6 +49,7 @@ task dockerBuildImage(type:DockerBuildImage, dependsOn: [createDockerfile, copyT
    group = 'docker'   
    inputDir = project.buildDir
    tag = "${project.repository}/${project.ext.imageName}:latest"
+   //tags = ["${project.repository}/${project.ext.imageName}:latest", "${project.repository}/${project.ext.imageName}:${version}"]
 }
 
 task dockerPushImage(type: DockerPushImage, dependsOn: dockerBuildImage) {   
