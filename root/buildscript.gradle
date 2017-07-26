@@ -13,3 +13,8 @@ buildscript {
 
 apply plugin: io.franzbecker.gradle.lombok.LombokPlugin
 apply plugin: org.hidetake.gradle.ssh.plugin.SshPlugin
+
+lombok {
+    version = "1.16.18"
+    sha256 = ""
+}
