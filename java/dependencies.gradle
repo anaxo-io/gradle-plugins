@@ -26,7 +26,8 @@ ext.versions = [
     junit 			: '4.12',
     mockito 		: '2.0.54-beta',
     assertj 		: '3.8.0',
-    spock 			: '1.0-groovy-2.4'
+    groovy          : '2.4.9',
+    spock 			: '1.1-groovy-2.4'
 ]
 
 dependencies {
@@ -80,7 +81,7 @@ dependencies {
     )
 
 	compile (		
-		"org.codehaus.groovy:groovy-all:2.4.6",
+		"org.codehaus.groovy:groovy-all:${versions.groovy}",
         "commons-beanutils:commons-beanutils:1.9.3",
         "ch.qos.logback:logback-access:${versions.logback}",
         "com.squareup.okhttp3:okhttp:${versions.okhttp}",
@@ -106,12 +107,13 @@ dependencies {
     )
         
 	testCompile (
-		"org.codehaus.groovy:groovy-all:2.4.6",
+		"org.codehaus.groovy:groovy-all:${versions.groovy}",
         "com.squareup.okhttp3:mockwebserver:${versions.okhttp}",
 		"junit:junit:${versions.junit}",
     	"org.mockito:mockito-core:${versions.mockito}",
     	"org.assertj:assertj-core:${versions.assertj}",
 		"org.spockframework:spock-core:${versions.spock}",
+        "org.spockframework:spock-guice:${versions.spock}",
 		"com.tngtech.java:junit-dataprovider:1.10.4",
         "org.easymock:easymock:3.3",
         "com.jayway.jsonpath:json-path-assert:2.2.0",
@@ -127,6 +129,7 @@ dependencies {
 		"ch.qos.logback:logback-classic:${versions.logback}",
 		"ch.qos.logback:logback-access:${versions.logback}",
 		"org.slf4j:log4j-over-slf4j:${versions.slf4j}",
-		"org.slf4j:jcl-over-slf4j:${versions.slf4j}"
+		"org.slf4j:jcl-over-slf4j:${versions.slf4j}",
+        "org.slf4j:jul-over-slf4j:${versions.slf4j}"
 	)       
 }
