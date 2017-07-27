@@ -60,6 +60,8 @@ task dockerPushImage(dependsOn: dockerBuildImage) {
         ext.repository = "https://${project.repository}"
         imageName = "${tag}"
       }
-      tasks.findByName("publishDockerImageWith$code").execute()
+      doLast {
+        tasks.findByName("publishDockerImageWith$code").execute()
+      }
     }
 }
