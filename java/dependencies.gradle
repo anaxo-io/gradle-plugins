@@ -130,6 +130,6 @@ dependencies {
 		"ch.qos.logback:logback-access:${versions.logback}",
 		"org.slf4j:log4j-over-slf4j:${versions.slf4j}",
 		"org.slf4j:jcl-over-slf4j:${versions.slf4j}",
-        "org.slf4j:jul-over-slf4j:${versions.slf4j}"
+        "org.slf4j:jul-to-slf4j:${versions.slf4j}"
 	)       
 }
