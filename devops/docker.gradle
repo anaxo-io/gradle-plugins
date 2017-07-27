@@ -6,7 +6,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath 'com.bmuschko:gradle-docker-plugin:3.0.7'
+    classpath 'com.bmuschko:gradle-docker-plugin:3.0.11'
     classpath 'gradle.plugin.com.patdouble:gradle-aws-ecr-plugin:0.1.4'
   }
 }
@@ -48,12 +48,18 @@ task createDockerfile(type: Dockerfile) {
 task dockerBuildImage(type:DockerBuildImage, dependsOn: [createDockerfile, copyTar]) {
    group = 'docker'   
    inputDir = project.buildDir
-   tag = "${project.repository}/${project.ext.imageName}:latest"
-   //tags = ["${project.repository}/${project.ext.imageName}:latest", "${project.repository}/${project.ext.imageName}:${version}"]
+   //tag = "${project.repository}/${project.ext.imageName}:latest"
+   tags = ["${project.repository}/${project.ext.imageName}:latest".toString(), "${project.repository}/${project.ext.imageName}:${version}".toString()]
 }
 
-task dockerPushImage(type: DockerPushImage, dependsOn: dockerBuildImage) {   
-   group = 'docker' 
-   ext.repository = "https://${project.repository}"
-   imageName = "${dockerBuildImage.tag}"
+task dockerPushImage(dependsOn: dockerBuildImage) {   
+   dockerBuildImage.tags.each { tag ->
+      String code = tag.hashCode()
+      task "publishDockerImageWith$code"(type: DockerPushImage, description: 'publish Docker image') {
+        group = 'docker' 
+        ext.repository = "https://${project.repository}"
+        imageName = "${tag}"
+      }
+      tasks.findByName("publishDockerImageWith$code").execute()
+    }
 }
