@@ -27,7 +27,8 @@ ext.versions = [
     mockito 		: '2.0.54-beta',
     assertj 		: '3.8.0',
     groovy          : '2.4.9',
-    spock 			: '1.1-groovy-2.4'
+    spock 			: '1.1-groovy-2.4',
+    assured         : '3.0.3'   
 ]
 
 dependencies {
@@ -121,8 +122,8 @@ dependencies {
         "org.xmlunit:xmlunit-matchers:2.2.0",
         "net.javacrumbs.json-unit:json-unit:1.18.0",
         "net.javacrumbs.json-unit:json-unit-fluent:1.18.0",
-        "io.rest-assured:rest-assured:3.0.2",
-        "io.rest-assured:json-path:3.0.2"
+        "io.rest-assured:rest-assured:${versions.assured}",
+        "io.rest-assured:json-path:${versions.assured}"
 	)
 	
 	runtime (
