@@ -123,11 +123,13 @@ dependencies {
         "net.javacrumbs.json-unit:json-unit:1.18.0",
         "net.javacrumbs.json-unit:json-unit-fluent:1.18.0")
 
-    testCompile (
-        "io.rest-assured:rest-assured:${versions.assured}",
-        "io.rest-assured:json-path:${versions.assured}"){
+    testCompile ("io.rest-assured:rest-assured:${versions.assured}"){
         exclude group: 'org.codehaus.groovy'
-    } 
+    }
+
+    testCompile ("io.rest-assured:json-path:${versions.assured}"){
+        exclude group: 'org.codehaus.groovy'
+    }
 	
 	runtime (
 		"ch.qos.logback:logback-classic:${versions.logback}",
