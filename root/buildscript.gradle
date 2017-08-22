@@ -8,11 +8,13 @@ buildscript {
     dependencies {
         classpath "io.franzbecker:gradle-lombok:1.8"
         classpath "org.hidetake:gradle-ssh-plugin:2.7.2"
+        classpath "gradle.plugin.com.dorongold.plugins:task-tree:1.3"
     }
 }
 
 apply plugin: io.franzbecker.gradle.lombok.LombokPlugin
 apply plugin: org.hidetake.gradle.ssh.plugin.SshPlugin
+apply plugin: com.dorongold.gradle.tasktree.TaskTreePlugin
 
 lombok {
     version = "1.16.18"
