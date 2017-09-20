@@ -82,8 +82,8 @@ gradle.projectsEvaluated {
 
                 testLogging.showStandardStreams = true
 
-                minHeapSize = "64m"
-                maxHeapSize = "256m"
+                //minHeapSize = "64m"
+                //maxHeapSize = "256m"
 
                 finalizedBy testReport, codeCoverageReport
             }
