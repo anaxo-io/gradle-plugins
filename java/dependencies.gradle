@@ -10,8 +10,8 @@ configurations {
 }
 
 ext.versions = [
-	neo4j   		: '3.2.3',
-    neo4jOgm 		: '2.1.4',
+	neo4j   		: '3.2.5',
+    neo4jOgm 		: '2.1.5',
     guice   		: '4.1.0',
     okhttp  		: '3.3.1',
     resteasy        : '3.1.4.Final',
