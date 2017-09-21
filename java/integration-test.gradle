@@ -23,7 +23,7 @@ plugins.withType(org.gradle.plugins.ide.idea.IdeaPlugin) {
 task integrationTest(type: Test) {
     description = 'Runs the integration tests.'
     group = 'verification'
-    testClassesDir = sourceSets.integrationTest.outputDir
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
     classpath = sourceSets.integrationTest.runtimeClasspath
     mustRunAfter test
 
