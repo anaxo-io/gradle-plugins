@@ -46,10 +46,10 @@ gradle.projectsEvaluated {
         executionData = execs
 
         reports {
-            html.enabled true
-            html.destination "${buildDir}/reports/jacoco"
-            xml.enabled false
-            csv.enabled false
+            html.enabled = true
+            html.destination = file("${buildDir}/reports/jacoco")
+            xml.enabled = false
+            csv.enabled = false
         }
 
         onlyIf = {
