@@ -37,7 +37,7 @@ ext.versions = [
     easymock        : '3.3',
     jayway          : '2.2.0',
     xmlunit         : '2.2.0',
-    javacrumbs      : '1.18.0'
+    javacrumbs      : '1.18.0',
     bytebuddy       : '1.7.5',
     objenesis       : '2.6'
 ]
