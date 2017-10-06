@@ -39,7 +39,9 @@ ext.versions = [
     xmlunit         : '2.2.0',
     javacrumbs      : '1.18.0',
     bytebuddy       : '1.7.5',
-    objenesis       : '2.6'
+    objenesis       : '2.6',
+    vmlens          : '1.0.0',
+    junit_toolbox   : '2.2'
 ]
 
 dependencies {
@@ -135,7 +137,9 @@ dependencies {
         "net.javacrumbs.json-unit:json-unit-fluent:${versions.javacrumbs}",
         "com.netflix.governator:governator-test-spock:${versions.governator}",
         "net.bytebuddy:byte-buddy:${versions.bytebuddy}",
-        "org.objenesis:objenesis:${versions.objenesis}"
+        "org.objenesis:objenesis:${versions.objenesis}",
+        "com.vmlens:concurrent-junit:${versions.vmlens}",
+        "com.googlecode.junit-toolbox:junit-toolbox:${versions.junit_toolbox}"
     )
 
     testCompile ("io.rest-assured:rest-assured:${versions.assured}"){
