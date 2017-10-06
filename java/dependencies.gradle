@@ -32,6 +32,7 @@ ext.versions = [
     groovy          : '2.4.9',
     spock 			: '1.1-groovy-2.4',
     assured         : '3.0.3',
+    governator      : '1.17.4',
     tngtech         : '1.10.4',
     easymock        : '3.3',
     jayway          : '2.2.0',
@@ -146,6 +147,12 @@ dependencies {
 
     testCompile ("io.rest-assured:json-path:${versions.assured}"){
         exclude group: 'org.codehaus.groovy'
+    }
+
+    testCompile(
+            "com.netflix.governator:governator-test-spock:${versions.governator}"
+    ) {
+        exclude group: 'com.cyrusinnovation', module: 'mockito-groovy-support'
     }
 	
 	runtime (
