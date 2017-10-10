@@ -16,6 +16,7 @@ plugins.withType(org.gradle.plugins.ide.idea.IdeaPlugin) {
     idea {
         module {
             testSourceDirs += file('src/integration-test/java')
+            testSourceDirs += file('src/integration-test/groovy')
         }
     }
 }
