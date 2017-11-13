@@ -20,20 +20,20 @@ task testReport(type: TestReport) {
 }
 
 
-gradle.projectsEvaluated {
+//gradle.projectsEvaluated {
     
-    task codeCoverageReport(type: JacocoReport) {
+    /*task codeCoverageReport(type: JacocoReport) {
 
         // Gather execution data from all subprojects
         // (change this if you e.g. want to calculate unit test/integration test coverage separately)
-        executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+        executionData fileTree(project.rootDir.absolutePath).include("/build/jacoco/*.exec")
         
         def additionalSources = files()
         def sources = files()
         def classes = files()
         def execs = files()
-        subprojects.each {
-            if (it.plugins.hasPlugin('java')) {
+        allprojects.each {
+            if (it.plugins.hasPlugin('java') || it.plugins.hasPlugin('groovy') ) {
                 additionalSources += files(it.sourceSets.main.allJava.srcDirs)
                 sources += files(it.sourceSets.main.allSource.srcDirs)
                 classes += files(it.sourceSets.main.output)
@@ -64,7 +64,11 @@ gradle.projectsEvaluated {
     }
 
     codeCoverageReport.dependsOn subprojects.check
-        
+    
+    codeCoverageReport.dependsOn {
+        allprojects*.task(test)
+    }*/
+
     allprojects { p ->
         apply plugin: 'jacoco'
 
@@ -82,16 +86,40 @@ gradle.projectsEvaluated {
 
                 testLogging.showStandardStreams = true
 
-                //minHeapSize = "64m"
-                //maxHeapSize = "256m"
-
-                finalizedBy testReport, codeCoverageReport
+                finalizedBy testReport/*, codeCoverageReport*/
             }
 
             jacoco {
                 toolVersion = "0.7.9"
                 reportsDir = file("$buildDir/reports/jacoco")
             }
+
+            jacocoTestReport {
+                executionData fileTree(project.rootDir.absolutePath).include("/build/jacoco/*.exec")
+
+                reports {
+                    html.enabled = true
+                    html.destination = file("${buildDir}/reports/jacoco")
+                    xml.enabled = false
+                    csv.enabled = false
+                }
+            }
+
+            jacocoTestCoverageVerification {
+                violationRules {
+                    rule {
+                        element = 'CLASS'
+                        limit {
+                            minimum = 0.9
+                        }
+                        excludes = [
+                            "com.czequered.promocodes.config.*"
+                        ]
+                    }
+                }
+            }
+
+            check.dependsOn jacocoTestReport
         }
     }
-}
+//}
