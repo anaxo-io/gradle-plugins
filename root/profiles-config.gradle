@@ -1,5 +1,5 @@
 def loadConfiguration() {
-    def profile = hasProperty('profile') ? profile : 'dev'
+    def profile = hasProperty('profile') ? profile : 'test'
     ext.profile = profile
     def configFile = file('config.groovy')
     def config = new ConfigSlurper(profile).parse(configFile.toURI().toURL())
