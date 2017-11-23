@@ -17,7 +17,6 @@ apply plugin: com.patdouble.gradle.awsecr.AwsecrPlugin
 
 import com.bmuschko.gradle.docker.tasks.image.*
 
-
 def AWS_ACCESS_KEY_ID = System.getenv("AWS_ACCESS_KEY_ID")
 def AWS_SECRET_ACCESS_KEY = System.getenv("AWS_SECRET_ACCESS_KEY")
 
@@ -32,13 +31,14 @@ task copyTar(type: Copy, dependsOn: ":${project.ext.imageSource}:build") {
 
 task createDockerfile(type: Dockerfile) {
     destFile = project.file("$buildDir/Dockerfile")
-    from 'java'
+    from 'openjdk:8-jre-alpine'
     maintainer 'Hicham Medkouri "info@anaxo.io"'
     label version: "${version}"
 
-    runCommand "apt-get update -y && apt-get install -y curl tar bash wget openssl"
-    runCommand "wget --no-check-certificate https://github.com/jwilder/dockerize/releases/download/v0.3.0/dockerize-linux-amd64-v0.3.0.tar.gz"
-    runCommand "tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.3.0.tar.gz"
+    runCommand "apk --update add curl tar bash wget openssl " +
+               "&& wget --no-check-certificate https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-linux-amd64-v0.6.0.tar.gz " +
+               "&& tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.0.tar.gz " +
+               "&& rm -rf dockerize-linux-amd64-v0.6.0.tar.gz"
 
     addFile "${project.ext.imageSource}-${version}.tar", '/'
     entryPoint "/usr/local/bin/dockerize","-timeout","30s","-wait", "tcp://neo4j:7687", "/${project.ext.imageSource}-${version}/bin/${project.imageSource}"
