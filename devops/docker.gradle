@@ -22,6 +22,10 @@ def AWS_SECRET_ACCESS_KEY = System.getenv("AWS_SECRET_ACCESS_KEY")
 
 ext.repository = '038337692500.dkr.ecr.ap-southeast-1.amazonaws.com'    
 
+ext.runCommand = "wget --no-check-certificate https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-linux-amd64-v0.6.0.tar.gz " +
+               "&& tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.0.tar.gz " +
+               "&& rm -rf dockerize-linux-amd64-v0.6.0.tar.gz"
+
 build.dependsOn("createDockerfile")
 
 task copyTar(type: Copy, dependsOn: ":${project.ext.imageSource}:build") {
@@ -31,14 +35,17 @@ task copyTar(type: Copy, dependsOn: ":${project.ext.imageSource}:build") {
 
 task createDockerfile(type: Dockerfile) {
     destFile = project.file("$buildDir/Dockerfile")
-    from 'openjdk:8-jre-alpine'
+    // needed for collateral service lpsolve library which depends 
+    // on glibc not present in the jre-alpine image
+    if (project.hasProperty("imageDebian")) {
+        from 'openjdk:8-jre'
+        runCommand "${project.ext.runCommand}"
+    } else {
+        from 'openjdk:8-jre-alpine'
+        runCommand "apk --update add curl tar bash wget openssl && ${project.ext.runCommand}"              
+    }
     maintainer 'Hicham Medkouri "info@anaxo.io"'
     label version: "${version}"
-
-    runCommand "apk --update add curl tar bash wget openssl " +
-               "&& wget --no-check-certificate https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-linux-amd64-v0.6.0.tar.gz " +
-               "&& tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.0.tar.gz " +
-               "&& rm -rf dockerize-linux-amd64-v0.6.0.tar.gz"
 
     addFile "${project.ext.imageSource}-${version}.tar", '/'
     entryPoint "/usr/local/bin/dockerize","-timeout","30s","-wait", "tcp://neo4j:7687", "/${project.ext.imageSource}-${version}/bin/${project.imageSource}"
@@ -48,7 +55,6 @@ task createDockerfile(type: Dockerfile) {
 task dockerBuildImage(type:DockerBuildImage, dependsOn: [createDockerfile, copyTar]) {
    group = 'docker'   
    inputDir = project.buildDir
-   //tag = "${project.repository}/${project.ext.imageName}:latest"
    tags = ["${project.repository}/${project.ext.imageName}:latest".toString(), "${project.repository}/${project.ext.imageName}:${version}".toString()]
 }
 
