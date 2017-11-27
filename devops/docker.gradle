@@ -38,8 +38,8 @@ task createDockerfile(type: Dockerfile) {
     // needed for collateral service lpsolve library which depends 
     // on glibc not present in the jre-alpine image
     if (project.hasProperty("imageDebian")) {
-        from 'openjdk:8-jre'
-        runCommand "${project.ext.runCommand}"
+        from 'openjdk:8-jre-slim'
+        runCommand "apt update && apt install -y curl tar bash wget openssl && ${project.ext.runCommand}"
     } else {
         from 'openjdk:8-jre-alpine'
         runCommand "apk --update add curl tar bash wget openssl && ${project.ext.runCommand}"              
