@@ -9,4 +9,27 @@ buildscript {
   }
 }
 
+apply plugin: 'jacoco'
 apply plugin: nebula.plugin.responsible.NebulaIntegTestPlugin
+
+task jacocoIntegrationTestReport(type: JacocoReport) {
+    dependsOn integrationTest
+    sourceSets sourceSets.main
+    executionData fileTree(project.rootDir.absolutePath).include("/build/jacoco/integrationTest.exec")
+
+    reports {
+        html.enabled = true
+        html.destination = file("${buildDir}/reports/jacoco/integrationTest")
+        xml.enabled = false
+        csv.enabled = false
+    }
+
+    afterEvaluate {
+            classDirectories = files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: ['org/drools/**'])
+            })
+    }
+}
+
+check.dependsOn jacocoIntegrationTestReport
+jacocoIntegrationTestReport.mustRunAfter jacocoTestReport
