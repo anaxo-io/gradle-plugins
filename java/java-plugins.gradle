@@ -5,6 +5,37 @@ apply plugin:'project-report'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+sourceSets {
+    main {
+        java {
+            srcDirs = []
+        }
+        groovy {
+            srcDirs = [
+                'src/main/java',
+                'src/main/groovy'
+            ]
+        }
+        resources {
+            'src/main/resources'
+        }
+    }
+    test {
+        java {
+            srcDirs = []
+        }
+        groovy {
+            srcDirs = [
+                'src/test/java',
+                'src/test/groovy'
+            ]
+        }
+        resources {
+            'src/test/resources'
+        }
+    }
+}
+
 compileJava {
     options.encoding = "UTF-8"
     options.compilerArgs << '-parameters'
