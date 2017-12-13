@@ -47,6 +47,17 @@ compileTestJava {
     //options.compilerArgs << '-Xlint:unchecked'
 }
 
+compileGroovy {
+    options.encoding = "UTF-8"
+    options.compilerArgs << '-parameters'
+    //options.compilerArgs << '-Xlint:unchecked'
+}
+
+compileTestGroovy {
+    options.compilerArgs << '-parameters'
+    //options.compilerArgs << '-Xlint:unchecked'
+}
+
 tasks.javadoc {
     options.links(
 		"http://docs.oracle.com/javase/8/docs/api/",
