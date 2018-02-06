@@ -71,3 +71,7 @@ task dockerPushImage(dependsOn: dockerBuildImage) {
       }
     }
 }
+
+task printDockerImageTag() {   
+   println "${project.repository}/${project.ext.imageName}:${version}"
+}
