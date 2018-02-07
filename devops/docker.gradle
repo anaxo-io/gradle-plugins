@@ -76,10 +76,3 @@ task dockerImageTag() {
    println "${project.repository}/${project.ext.imageName}:${version}"
 }
 
-task kubernetesNamespace() {
-   println "${kubernetesNamespace}"
-}
-
-task kubernetesDeployment() {
-   println "${kubernetesDeployment}"
-}
