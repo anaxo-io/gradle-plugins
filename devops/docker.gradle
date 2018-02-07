@@ -75,3 +75,11 @@ task dockerPushImage(dependsOn: dockerBuildImage) {
 task printDockerImageTag() {   
    println "${project.repository}/${project.ext.imageName}:${version}"
 }
+
+task printKubernetesNamespace() {
+   println "${kubernetesNamespace}"
+}
+
+task printKubernetesDeployment() {
+   println "${kubernetesDeployment}"
+}
