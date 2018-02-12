@@ -55,7 +55,11 @@ task createDockerfile(type: Dockerfile) {
 task dockerBuildImage(type:DockerBuildImage, dependsOn: [createDockerfile, copyTar]) {
    group = 'docker'   
    inputDir = project.buildDir
-   tags = ["${project.repository}/${project.ext.imageName}:latest".toString(), "${project.repository}/${project.ext.imageName}:${version}".toString()]
+   tags = ["${project.repository}/${project.ext.imageName}:latest".toString(), 
+          "${project.repository}/${project.ext.imageName}:${version}".toString(),
+          "${project.repository}/${project.ext.imageName}:${git_commit}".toString(),
+          "${project.repository}/${project.ext.imageName}:build_${build_number}".toString()
+           ]
 }
 
 task dockerPushImage(dependsOn: dockerBuildImage) {   
