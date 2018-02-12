@@ -52,7 +52,9 @@ task createDockerfile(type: Dockerfile) {
     exposePort project.imagePort        
 }
 
-task dockerBuildImageOnly(type:DockerBuildImage){
+createDockerfile.onlyIf { !project.hasProperty('skipCreateDockerfile') }
+
+task dockerBuildImage(type:DockerBuildImage, dependsOn: [createDockerfile, copyTar]) {
    group = 'docker'   
    inputDir = project.buildDir
    tags = ["${project.repository}/${project.ext.imageName}:latest".toString(), 
@@ -60,22 +62,6 @@ task dockerBuildImageOnly(type:DockerBuildImage){
           "${project.repository}/${project.ext.imageName}:${git_commit}".toString(),
           "${project.repository}/${project.ext.imageName}:build_${build_number}".toString()
            ]
-}
-
-task dockerBuildImage(dependsOn: ['dockerBuildImageOnly', 'createDockerfile', 'copyTar'])
-
-task dockerPushImage(dependsOn: dockerBuildImage) {   
-   dockerBuildImage.tags.each { tag ->
-      String code = tag.hashCode()
-      task "publishDockerImageWith$code"(type: DockerPushImage, description: 'publish Docker image') {
-        group = 'docker' 
-        ext.repository = "https://${project.repository}"
-        imageName = "${tag}"
-      }
-      doLast {
-        tasks.findByName("publishDockerImageWith$code").execute()
-      }
-    }
 }
 
 task kubernetesNodes(type:Exec) {
