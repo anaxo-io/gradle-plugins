@@ -62,7 +62,7 @@ task dockerBuildImageOnly(type:DockerBuildImage){
            ]
 }
 
-task dockerBuildImage(dependsOn: [createDockerfile, copyTar, dockerBuildImageOnly]) {
+task dockerBuildImage {
   dependsOn 'createDockerfile'
   dependsOn 'copyTar'
   dependsOn 'dockerBuildImageOnly'
