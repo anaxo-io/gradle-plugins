@@ -52,7 +52,7 @@ task createDockerfile(type: Dockerfile) {
     exposePort project.imagePort        
 }
 
-task dockerBuildImage(type:DockerBuildImage, dependsOn: [createDockerfile, copyTar]) {
+task dockerBuildImageOnly(type:DockerBuildImage){
    group = 'docker'   
    inputDir = project.buildDir
    tags = ["${project.repository}/${project.ext.imageName}:latest".toString(), 
@@ -60,6 +60,13 @@ task dockerBuildImage(type:DockerBuildImage, dependsOn: [createDockerfile, copyT
           "${project.repository}/${project.ext.imageName}:${git_commit}".toString(),
           "${project.repository}/${project.ext.imageName}:build_${build_number}".toString()
            ]
+}
+
+task dockerBuildImage(dependsOn: [createDockerfile, copyTar, dockerBuildImageOnly]) {
+  dependsOn 'createDockerfile'
+  dependsOn 'copyTar'
+  dependsOn 'dockerBuildImageOnly'
+  tasks.findByName('dockerBuildImageOnly').mustRunAfter 'createDockerfile'
 }
 
 task dockerPushImage(dependsOn: dockerBuildImage) {   
