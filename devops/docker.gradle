@@ -81,6 +81,6 @@ task kubernetesDeploy(type:Exec) {
 }
 
 task kubernetesDeployStatus(type:Exec) {
-  commandLine 'kubectl', '-n', '${project.ext.kubernetesNamespace}', 'rollout', 'status', 'deployment/${project.ext.kubernetesDeployment}'
+  commandLine 'kubectl', '-n', "${project.ext.kubernetesNamespace}", 'rollout', 'status', "deployment/${project.ext.kubernetesDeployment}"
 }
 
