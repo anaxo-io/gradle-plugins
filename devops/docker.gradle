@@ -62,14 +62,7 @@ task dockerBuildImageOnly(type:DockerBuildImage){
            ]
 }
 
-task dockerBuildImage {
-  dependsOn 'createDockerfile'
-  dependsOn 'copyTar'
-  dependsOn 'dockerBuildImageOnly'
-  tasks.findByName('dockerBuildImageOnly').mustRunAfter 'createDockerfile'
-
-  tags = dockerBuildImageOnly.tags
-}
+task dockerBuildImage(dependsOn: ['dockerBuildImageOnly', 'createDockerfile', 'copyTar'])
 
 task dockerPushImage(dependsOn: dockerBuildImage) {   
    dockerBuildImage.tags.each { tag ->
