@@ -64,6 +64,20 @@ task dockerBuildImage(type:DockerBuildImage, dependsOn: [createDockerfile, copyT
            ]
 }
 
+task dockerPushImage(dependsOn: dockerBuildImage) {   
+   dockerBuildImage.tags.each { tag ->
+      String code = tag.hashCode()
+      task "publishDockerImageWith$code"(type: DockerPushImage, description: 'publish Docker image') {
+        group = 'docker' 
+        ext.repository = "https://${project.repository}"
+        imageName = "${tag}"
+      }
+      doLast {
+        tasks.findByName("publishDockerImageWith$code").execute()
+      }
+    }
+}
+
 task kubernetesNodes(type:Exec) {
   commandLine 'kubectl', 'get', 'nodes'
 }
