@@ -81,7 +81,7 @@ task kubernetesNodes(type:Exec) {
 }
 
 task kubernetesDeploy(type:Exec) {
-  commandLine "kubectl", "-n", "${project.ext.kubernetesNamespace}", "set", "image", "deployment/${project.ext.kubernetesDeployment}", "${project.ext.imageName}=${project.repository}/${project.ext.imageName}:${version}"
+  commandLine "kubectl", "-n", "${project.ext.kubernetesNamespace}", "set", "image", "deployment/${project.ext.kubernetesDeployment}", "${project.ext.imageName}=${project.repository}/${project.ext.imageName}:${git_commit}"
 }
 
 task kubernetesDeployStatus(type:Exec) {
