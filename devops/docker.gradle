@@ -77,20 +77,3 @@ task dockerPushImage(dependsOn: dockerBuildImage) {
       }
     }
 }
-
-task kubernetesNodes(type:Exec) {
-  commandLine 'kubectl', 'get', 'nodes'
-}
-
-task kubernetesGetDeployment(type:Exec) {
-  commandLine "kubectl", "-n", "${project.ext.kubernetesNamespace}", "get", "deployment", "${project.ext.kubernetesDeployment}", "-o", "wide"
-}
-
-task kubernetesDeploy(type:Exec) {
-  commandLine "kubectl", "-n", "${project.ext.kubernetesNamespace}", "set", "image", "deployment/${project.ext.kubernetesDeployment}", "${project.ext.imageName}=${project.repository}/${project.ext.imageName}:${git_commit}"
-}
-
-task kubernetesDeployStatus(type:Exec) {
-  commandLine 'kubectl', '-n', "${project.ext.kubernetesNamespace}", 'rollout', 'status', "deployment/${project.ext.kubernetesDeployment}"
-}
-
