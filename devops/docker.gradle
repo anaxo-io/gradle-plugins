@@ -52,7 +52,7 @@ task createDockerfile(type: Dockerfile) {
     exposePort project.imagePort        
 }
 
-createDockerfile.onlyIf { !project.hasProperty('skipCreateDockerfile') }
+createDockerfile.onlyIf { !project.hasProperty('skip_create_dockerfile') }
 
 task dockerBuildImage(type:DockerBuildImage, dependsOn: [createDockerfile, copyTar]) {
    group = 'docker'   
