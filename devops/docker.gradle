@@ -19,6 +19,7 @@ import com.bmuschko.gradle.docker.tasks.image.*
 
 def AWS_ACCESS_KEY_ID = System.getenv("AWS_ACCESS_KEY_ID")
 def AWS_SECRET_ACCESS_KEY = System.getenv("AWS_SECRET_ACCESS_KEY")
+def K8_NAMESPACE = System.getenv("K8_NAMESPACE")
 
 ext.repository = '038337692500.dkr.ecr.ap-southeast-1.amazonaws.com'    
 
@@ -55,7 +56,11 @@ task createDockerfile(type: Dockerfile) {
 task dockerBuildImage(type:DockerBuildImage, dependsOn: [createDockerfile, copyTar]) {
    group = 'docker'   
    inputDir = project.buildDir
-   tags = ["${project.repository}/${project.ext.imageName}:latest".toString(), "${project.repository}/${project.ext.imageName}:${version}".toString()]
+   tags = ["${project.repository}/${project.ext.imageName}:latest".toString(), 
+          "${project.repository}/${project.ext.imageName}:${version}".toString(),
+          "${project.repository}/${project.ext.imageName}:${git_commit}".toString(),
+          "${project.repository}/${project.ext.imageName}:build_${build_number}".toString()
+           ]
 }
 
 task dockerPushImage(dependsOn: dockerBuildImage) {   
@@ -70,4 +75,20 @@ task dockerPushImage(dependsOn: dockerBuildImage) {
         tasks.findByName("publishDockerImageWith$code").execute()
       }
     }
+}
+
+task kubernetesNodes(type:Exec) {
+  commandLine 'kubectl', 'get', 'nodes'
+}
+
+task kubernetesGetDeployment(type:Exec) {
+  commandLine "kubectl", "-n", "${K8_NAMESPACE}", "get", "deployment", "${project.ext.kubernetesDeployment}", "-o", "wide"
+}
+
+task kubernetesDeploy(type:Exec) {
+  commandLine "kubectl", "-n", "${K8_NAMESPACE}", "set", "image", "deployment/${project.ext.kubernetesDeployment}", "${project.ext.imageName}=${project.repository}/${project.ext.imageName}:${git_commit}"
+}
+
+task kubernetesDeployStatus(type:Exec) {
+  commandLine 'kubectl', '-n', "${K8_NAMESPACE}", 'rollout', 'status', "deployment/${project.ext.kubernetesDeployment}"
 }
