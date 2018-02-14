@@ -19,7 +19,7 @@ import com.bmuschko.gradle.docker.tasks.image.*
 
 def AWS_ACCESS_KEY_ID = System.getenv("AWS_ACCESS_KEY_ID")
 def AWS_SECRET_ACCESS_KEY = System.getenv("AWS_SECRET_ACCESS_KEY")
-def KUBE_DEPLOYMENT_NAMESPACE = System.getenv("KUBE_DEPLOYMENT_NAMESPACE")
+def K8_NAMESPACE = System.getenv("K8_NAMESPACE")
 
 ext.repository = '038337692500.dkr.ecr.ap-southeast-1.amazonaws.com'    
 
@@ -82,13 +82,13 @@ task kubernetesNodes(type:Exec) {
 }
 
 task kubernetesGetDeployment(type:Exec) {
-  commandLine "kubectl", "-n", "${KUBE_DEPLOYMENT_NAMESPACE}", "get", "deployment", "${project.ext.kubernetesDeployment}", "-o", "wide"
+  commandLine "kubectl", "-n", "${K8_NAMESPACE}", "get", "deployment", "${project.ext.kubernetesDeployment}", "-o", "wide"
 }
 
 task kubernetesDeploy(type:Exec) {
-  commandLine "kubectl", "-n", "${KUBE_DEPLOYMENT_NAMESPACE}", "set", "image", "deployment/${project.ext.kubernetesDeployment}", "${project.ext.imageName}=${project.repository}/${project.ext.imageName}:${git_commit}"
+  commandLine "kubectl", "-n", "${K8_NAMESPACE}", "set", "image", "deployment/${project.ext.kubernetesDeployment}", "${project.ext.imageName}=${project.repository}/${project.ext.imageName}:${git_commit}"
 }
 
 task kubernetesDeployStatus(type:Exec) {
-  commandLine 'kubectl', '-n', "${KUBE_DEPLOYMENT_NAMESPACE}", 'rollout', 'status', "deployment/${project.ext.kubernetesDeployment}"
+  commandLine 'kubectl', '-n', "${K8_NAMESPACE}", 'rollout', 'status', "deployment/${project.ext.kubernetesDeployment}"
 }
