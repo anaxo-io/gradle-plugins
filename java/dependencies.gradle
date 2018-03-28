@@ -56,6 +56,10 @@ ext.versions = [
 
 dependencies {
 
+    // https://github.com/rzwitserloot/lombok/issues/1602
+    //annotationProcessor("org.projectlombok:lombok:1.16.20")
+    //compileOnly("org.projectlombok:lombok:1.16.20")
+
     implementation "org.codehaus.groovy:groovy-all:${versions.groovy}"
 
     implementation "org.slf4j:slf4j-api:${versions.slf4j}"
