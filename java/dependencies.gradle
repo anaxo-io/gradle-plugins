@@ -20,7 +20,7 @@ ext.versions = [
     easymock        : '3.3',
     eclipselink     : '2.6.3',
     governator      : '1.17.4',
-    groovy          : '2.4.9',
+    groovy          : '2.4.15',
     guava           : '19.0',
     guice           : '4.1.0',
     hazelcast       : '3.8',
