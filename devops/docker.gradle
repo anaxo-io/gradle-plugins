@@ -57,10 +57,13 @@ task dockerBuildImage(type:DockerBuildImage, dependsOn: [createDockerfile, copyT
    group = 'docker'   
    inputDir = project.buildDir
    tags = ["${project.repository}/${project.ext.imageName}:latest".toString(), 
-          "${project.repository}/${project.ext.imageName}:${version}".toString(),
-          "${project.repository}/${project.ext.imageName}:${git_commit}".toString(),
-          "${project.repository}/${project.ext.imageName}:build_${build_number}".toString()
-           ]
+          "${project.repository}/${project.ext.imageName}:${version}".toString()]
+    if (project.hasProperty('git_commit')) {
+      tags += ["${project.repository}/${project.ext.imageName}:${git_commit}".toString()]
+    }
+    if (project.hasProperty('build_number')) {
+      tags += ["${project.repository}/${project.ext.imageName}:build_${build_number}".toString()]
+    }
 }
 
 task dockerPushImage(dependsOn: dockerBuildImage) {   
