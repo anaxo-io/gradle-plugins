@@ -80,7 +80,7 @@ task dockerPushImage(dependsOn: dockerBuildImage) {
     }
 }
 
-if (project.hasProperty('project.kubernetesDeployment') && project.hasProperty('git_commit')) {
+if (project.hasProperty('project.ext.kubernetesDeployment') && project.hasProperty('git_commit')) {
   task kubernetesNodes(type:Exec) {
     group 'Kubernetes'
     description 'Get all the nodes'
