@@ -12,11 +12,13 @@ buildscript {
     }
 }
 
-apply plugin: io.franzbecker.gradle.lombok.LombokPlugin
 apply plugin: org.hidetake.gradle.ssh.plugin.SshPlugin
 apply plugin: com.dorongold.gradle.tasktree.TaskTreePlugin
 
-lombok {
-    version = "1.16.20"
-    sha256 = ""
+allprojects {
+    apply plugin: io.franzbecker.gradle.lombok.LombokPlugin
+    lombok {
+        version = "1.16.20"
+        sha256 = ""
+    }
 }
