@@ -58,9 +58,9 @@ task dockerBuildImage(type:DockerBuildImage, dependsOn: [createDockerfile, copyT
    inputDir = project.buildDir
    tags = ["${project.repository}/${project.ext.imageName}:latest".toString(), 
           "${project.repository}/${project.ext.imageName}:${version}".toString()]
-    //if (project.hasProperty('git_commit')) {
-    //  tags += ["${project.repository}/${project.ext.imageName}:${git_commit}".toString()]
-    //}
+    if (project.hasProperty('git_commit')) {
+      tags += ["${project.repository}/${project.ext.imageName}:${git_commit}".toString()]
+    }
     if (project.hasProperty('build_number')) {
       tags += ["${project.repository}/${project.ext.imageName}:build_${build_number}".toString()]
     }
@@ -89,7 +89,7 @@ task kubernetesGetDeployment(type:Exec) {
 }
 
 task kubernetesDeploy(type:Exec) {
-  commandLine "kubectl", "-n", "${K8_NAMESPACE}", "set", "image", "deployment/${project.ext.kubernetesDeployment}", "${project.ext.imageName}=${project.repository}/${project.ext.imageName}"
+  commandLine "kubectl", "-n", "${K8_NAMESPACE}", "set", "image", "deployment/${project.ext.kubernetesDeployment}", "${project.ext.imageName}=${project.repository}/${project.ext.imageName}:${git_commit}"
 }
 
 task kubernetesDeployStatus(type:Exec) {
