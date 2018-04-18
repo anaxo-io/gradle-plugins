@@ -7,7 +7,7 @@ task kubernetesGetDeployment(type:Exec) {
 }
 
 task kubernetesDeploy(type:Exec) {
-  //commandLine "kubectl", "-n", "${K8_NAMESPACE}", "set", "image", "deployment/${project.ext.kubernetesDeployment}", "${project.ext.imageName}=${project.repository}/${project.ext.imageName}:${git_commit}"
+  //commandLine "kubectl", "-n", "${K8_NAMESPACE}", "set", "image", "deployment/${project.ext.kubernetesDeployment}", "${project.ext.imageName}=${project.repository}/${project.ext.imageName}"
 }
 
 task kubernetesDeployStatus(type:Exec) {
