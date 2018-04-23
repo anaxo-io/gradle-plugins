@@ -1,9 +1,3 @@
-apply plugin: 'base'
-apply plugin: com.bmuschko.gradle.docker.DockerRemoteApiPlugin
-apply plugin: com.patdouble.gradle.awsecr.AwsecrPlugin
-
-import com.bmuschko.gradle.docker.tasks.image.*
-
 def AWS_ACCESS_KEY_ID = System.getenv("AWS_ACCESS_KEY_ID")
 def AWS_SECRET_ACCESS_KEY = System.getenv("AWS_SECRET_ACCESS_KEY")
 def K8_NAMESPACE = System.getenv("K8_NAMESPACE")
