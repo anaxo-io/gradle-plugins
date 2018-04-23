@@ -80,26 +80,28 @@ task dockerPushImage(dependsOn: dockerBuildImage) {
     }
 }
 
-task kubernetesNodes(type:Exec) {
-  group 'Kubernetes'
-  description 'Get all the nodes'
-  commandLine 'kubectl', 'get', 'nodes'
-}
+if (project.hasProperty('project.ext.kubernetesDeployment')) {
+  task kubernetesNodes(type:Exec) {
+    group 'Kubernetes'
+    description 'Get all the nodes'
+    commandLine 'kubectl', 'get', 'nodes'
+  }
 
-task kubernetesGetDeployment(type:Exec) {
-  group 'Kubernetes'
-  description 'Get the deployment definition'
-  commandLine "kubectl", "-n", "${K8_NAMESPACE}", "get", "deployment", "${project.ext.kubernetesDeployment}", "-o", "wide"
-}
+  task kubernetesGetDeployment(type:Exec) {
+    group 'Kubernetes'
+    description 'Get the deployment definition'
+    commandLine "kubectl", "-n", "${K8_NAMESPACE}", "get", "deployment", "${project.ext.kubernetesDeployment}", "-o", "wide"
+  }
 
-task kubernetesDeploy(type:Exec) {
-  group 'Kubernetes'
-  description 'Set the deployment definition'
-  commandLine "kubectl", "-n", "${K8_NAMESPACE}", "set", "image", "deployment/${project.ext.kubernetesDeployment}", "${project.ext.imageName}=${project.repository}/${project.ext.imageName}:${git_commit}"
-}
+  task kubernetesDeploy(type:Exec) {
+    group 'Kubernetes'
+    description 'Set the deployment definition'
+    commandLine "kubectl", "-n", "${K8_NAMESPACE}", "set", "image", "deployment/${project.ext.kubernetesDeployment}", "${project.ext.imageName}=${project.repository}/${project.ext.imageName}:${git_commit}"
+  }
 
-task kubernetesDeployStatus(type:Exec) {
-  group 'Kubernetes'
-  description 'Get the deployment status'
-  commandLine 'kubectl', '-n', "${K8_NAMESPACE}", 'rollout', 'status', "deployment/${project.ext.kubernetesDeployment}"
+  task kubernetesDeployStatus(type:Exec) {
+    group 'Kubernetes'
+    description 'Get the deployment status'
+    commandLine 'kubectl', '-n', "${K8_NAMESPACE}", 'rollout', 'status', "deployment/${project.ext.kubernetesDeployment}"
+  }
 }
