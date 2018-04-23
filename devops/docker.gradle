@@ -77,7 +77,7 @@ task dockerPushImage(dependsOn: dockerBuildImage) {
     }
 }
 
-if (project.hasProperty('project.ext.kubernetesDeployment'){
+if (project.hasProperty('project.ext.kubernetesDeployment')) {
   task kubernetesNodes(type:Exec) {
     group 'Kubernetes'
     description 'Get all the nodes'
