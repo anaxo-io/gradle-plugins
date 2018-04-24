@@ -14,11 +14,25 @@ buildscript {
 apply plugin: 'base'
 apply plugin: com.bmuschko.gradle.docker.DockerRemoteApiPlugin
 apply plugin: com.patdouble.gradle.awsecr.AwsecrPlugin
-apply from: "https://raw.githubusercontent.com/anaxo-io/gradle-plugins/develop/devops/envs.gradle"
 
 import com.bmuschko.gradle.docker.tasks.image.*
 
-ext.repository = '038337692500.dkr.ecr.ap-southeast-1.amazonaws.com'
+def BUILD_NUMBER = System.getenv("BUILD_NUMBER") ?: project.findProperty('version')
+def K8_NAMESPACE = System.getenv("K8_NAMESPACE") ?: "N/A"
+def AWS_ACCESS_KEY_ID = System.getenv("AWS_ACCESS_KEY_ID")
+def AWS_SECRET_ACCESS_KEY = System.getenv("AWS_SECRET_ACCESS_KEY")
+def REPOSITORY = '038337692500.dkr.ecr.ap-southeast-1.amazonaws.com'
+def TAGS = ["${REPOSITORY}/${project.ext.imageName}:${BUILD_NUMBER}".toString()]
+if ("${BUILD_NUMBER}" == "${version}") {
+  TAGS += ["${REPOSITORY}/${project.ext.imageName}:latest"]
+}
+
+println "Set the following environment variables:\n  " +
+        "BUILD_NUMBER: ${BUILD_NUMBER} \n  " +
+        "K8_NAMESPACE: ${K8_NAMESPACE} \n  " +
+        "REPOSITORY: ${REPOSITORY} \n  " +
+        "TAGS: ${TAGS} \n"
+
 
 ext.runCommand = "wget --no-check-certificate https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-linux-amd64-v0.6.0.tar.gz " +
                "&& tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.0.tar.gz " +
@@ -53,10 +67,7 @@ task createDockerfile(type: Dockerfile) {
 task dockerBuildImage(type:DockerBuildImage, dependsOn: [createDockerfile, copyTar]) {
   group = 'docker'   
   inputDir = project.buildDir
-  tags = ["${project.repository}/${project.ext.imageName}:${BUILD_NUMBER}".toString()]
-  if (project.findProperty('BUILD_NUMBER') == project.findProperty('version')) {
-    tags += ["${project.repository}/${project.ext.imageName}:latest".toString()]
-  }
+  tags = TAGS
 }
 
 task dockerPushImage(dependsOn: dockerBuildImage) {   
@@ -64,11 +75,35 @@ task dockerPushImage(dependsOn: dockerBuildImage) {
     String code = tag.hashCode()
     task "publishDockerImageWith$code"(type: DockerPushImage, description: 'publish Docker image') {
       group = 'docker' 
-      ext.repository = "https://${project.repository}"
+      ext.repository = "https://${REPOSITORY}"
       imageName = "${tag}"
     }
     doLast {
       tasks.findByName("publishDockerImageWith$code").execute()
     }
   }
+}
+
+task kubernetesNodes(type:Exec) {
+  group 'Kubernetes'
+  description 'Get all the nodes'
+  commandLine 'kubectl', 'get', 'nodes'
+}
+
+task kubernetesGetDeployment(type:Exec) {
+  group 'Kubernetes'
+  description 'Get the deployment definition'
+  commandLine "kubectl", "-n", "${K8_NAMESPACE}", "get", "deployment", "${project.ext.kubernetesDeployment}", "-o", "wide"
+}
+
+task kubernetesDeploy(type:Exec) {
+  group 'Kubernetes'
+  description 'Set the deployment definition'
+  commandLine "kubectl", "-n", "${K8_NAMESPACE}", "set", "image", "deployment/${project.ext.kubernetesDeployment}", "${project.ext.imageName}=${REPOSITORY}/${project.ext.imageName}:${BUILD_NUMBER}"
+}
+
+task kubernetesDeployStatus(type:Exec) {
+  group 'Kubernetes'
+  description 'Get the deployment status'
+  commandLine 'kubectl', '-n', "${K8_NAMESPACE}", 'rollout', 'status', "deployment/${project.ext.kubernetesDeployment}"
 }

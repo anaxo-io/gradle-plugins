@@ -1,6 +1,0 @@
-def BUILD_NUMBER = System.getenv("BUILD_NUMBER") ?: '${version}'
-def K8_NAMESPACE = System.getenv("K8_NAMESPACE") ?: "N/A"
-def AWS_ACCESS_KEY_ID = System.getenv("AWS_ACCESS_KEY_ID")
-def AWS_SECRET_ACCESS_KEY = System.getenv("AWS_SECRET_ACCESS_KEY")
-
-println 'Using build number ${BUILD_NUMBER} and namespace ${K8_NAMESPACE}'
