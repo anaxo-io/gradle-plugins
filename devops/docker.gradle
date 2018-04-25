@@ -24,7 +24,7 @@ def AWS_SECRET_ACCESS_KEY = System.getenv("AWS_SECRET_ACCESS_KEY")
 def REPOSITORY = '038337692500.dkr.ecr.ap-southeast-1.amazonaws.com'
 def TAGS = ["${REPOSITORY}/${project.ext.imageName}:${BUILD_NUMBER}".toString()]
 if ("${BUILD_NUMBER}" == "${version}") {
-  TAGS += ["${REPOSITORY}/${project.ext.imageName}:latest"]
+  TAGS += ["${REPOSITORY}/${project.ext.imageName}:latest".toString()]
 }
 
 println "Set the following environment variables:\n  " +
