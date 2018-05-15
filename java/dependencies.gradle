@@ -11,8 +11,7 @@ configurations {
 }
 
 ext.versions = [
-		apoc 						: '3.3.0.2',
-		assertj         : '3.8.0',
+	assertj         : '3.8.0',
     assured         : '3.0.3',
     bytebuddy       : '1.7.5',
     commons_lang    : '2.6',
@@ -25,7 +24,7 @@ ext.versions = [
     guava           : '19.0',
     guice           : '4.1.0',
     hazelcast       : '3.8',
-    jackson         : '2.8.3',
+    jackson         : '2.8.9',
     jamon           : '2.81',
     jasypt          : '1.9.2',
     javacrumbs      : '1.18.0',
@@ -66,7 +65,6 @@ dependencies {
     implementation "org.slf4j:slf4j-api:${versions.slf4j}"
 
     testImplementation (
-			  "org.neo4j.procedure:apoc:${versions.apoc}",
         "org.codehaus.groovy:groovy-all:${versions.groovy}",
         "junit:junit:${versions.junit}",
         "org.mockito:mockito-core:${versions.mockito}",
