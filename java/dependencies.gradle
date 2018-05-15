@@ -11,7 +11,8 @@ configurations {
 }
 
 ext.versions = [
-	assertj         : '3.8.0',
+		apoc 						: '3.3.0.2',
+		assertj         : '3.8.0',
     assured         : '3.0.3',
     bytebuddy       : '1.7.5',
     commons_lang    : '2.6',
@@ -65,6 +66,7 @@ dependencies {
     implementation "org.slf4j:slf4j-api:${versions.slf4j}"
 
     testImplementation (
+			  "org.neo4j.procedure:apoc:${versions.apoc}",
         "org.codehaus.groovy:groovy-all:${versions.groovy}",
         "junit:junit:${versions.junit}",
         "org.mockito:mockito-core:${versions.mockito}",
@@ -80,8 +82,8 @@ dependencies {
         "org.slf4j:jcl-over-slf4j:${versions.slf4j}",
         "org.slf4j:jul-to-slf4j:${versions.slf4j}"
     )
-    
-	
+
+
 	/*compile ("org.neo4j:neo4j-enterprise:${versions.neo4j}") {
         exclude group: 'org.slf4j'
         exclude group: 'org.neo4j', module: 'neo4j-cypher-compiler-2.3'
@@ -89,14 +91,14 @@ dependencies {
         exclude group: 'org.neo4j', module: 'neo4j-cypher-frontend-2.3'
         exclude group: 'org.neo4j', module: 'neo4j-cypher-frontend-3.0'
     }
-    
+
     compile (
         "org.neo4j:neo4j-ogm-core:${versions.neo4jOgm}",
         "org.neo4j:neo4j-ogm-http-driver:${versions.neo4jOgm}",
         "org.neo4j:neo4j-ogm-bolt-driver:${versions.neo4jOgm}",
         "org.neo4j:neo4j-ogm-embedded-driver:${versions.neo4jOgm}"
     )
-	
+
 	compile (
         "com.google.inject:guice:${versions.guice}",
         "com.google.inject.extensions:guice-servlet:${versions.guice}",
@@ -130,7 +132,7 @@ dependencies {
         "com.palominolabs.metrics:metrics-guice:${versions.metricsguice}"
     )
 
-	compile (		
+	compile (
 		"org.codehaus.groovy:groovy-all:${versions.groovy}",
         "commons-beanutils:commons-beanutils:1.9.3",
         "ch.qos.logback:logback-access:${versions.logback}",
@@ -151,11 +153,11 @@ dependencies {
         exclude group: 'org.neo4j', module: 'neo4j-cypher-frontend-2.3'
         exclude group: 'org.neo4j', module: 'neo4j-cypher-frontend-3.0'
     }
-	
+
 	testCompile (
-        "org.neo4j:neo4j-ogm-test:${versions.neo4jOgm}"            
+        "org.neo4j:neo4j-ogm-test:${versions.neo4jOgm}"
     )
-        
+
 	testCompile (
 		"org.codehaus.groovy:groovy-all:${versions.groovy}",
         "com.squareup.okhttp3:mockwebserver:${versions.okhttp}",
@@ -170,7 +172,7 @@ dependencies {
         "org.xmlunit:xmlunit-core:${versions.xmlunit}",
         "org.xmlunit:xmlunit-matchers:${versions.xmlunit}",
         "net.javacrumbs.json-unit:json-unit:${versions.javacrumbs}",
-        "net.javacrumbs.json-unit:json-unit-fluent:${versions.javacrumbs}",        
+        "net.javacrumbs.json-unit:json-unit-fluent:${versions.javacrumbs}",
         "net.bytebuddy:byte-buddy:${versions.bytebuddy}",
         "org.objenesis:objenesis:${versions.objenesis}",
         "com.vmlens:concurrent-junit:${versions.vmlens}",
@@ -190,7 +192,7 @@ dependencies {
     ) {
         exclude group: 'com.cyrusinnovation', module: 'mockito-groovy-support'
     }
-	
+
 	runtime (
 		"ch.qos.logback:logback-classic:${versions.logback}",
 		"ch.qos.logback:logback-access:${versions.logback}",
