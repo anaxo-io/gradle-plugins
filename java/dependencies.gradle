@@ -66,6 +66,7 @@ dependencies {
     implementation "org.slf4j:slf4j-api:${versions.slf4j}"
 
     testImplementation (
+			  "org.neo4j.procedure:apoc:${versions.apoc}",
         "org.codehaus.groovy:groovy-all:${versions.groovy}",
         "junit:junit:${versions.junit}",
         "org.mockito:mockito-core:${versions.mockito}",
