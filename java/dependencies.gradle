@@ -11,7 +11,8 @@ configurations {
 }
 
 ext.versions = [
-	assertj         : '3.8.0',
+  apoc 						: '3.3.0.2',
+	  assertj         : '3.8.0',
     assured         : '3.0.3',
     bytebuddy       : '1.7.5',
     commons_lang    : '2.6',
@@ -72,6 +73,10 @@ dependencies {
         "org.spockframework:spock-core:${versions.spock}",
         "org.spockframework:spock-guice:${versions.spock}"
     )
+
+		testImplementation ("org.neo4j.procedure:apoc:${versions.apoc}"){
+	      exclude group: 'com.fasterxml.jackson.core', module: 'jackson-databind'
+	  }
 
     runtimeOnly (
         "ch.qos.logback:logback-classic:${versions.logback}",
