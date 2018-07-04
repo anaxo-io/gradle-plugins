@@ -1,18 +1,18 @@
-configurations.all {
-	// check for updates every build
-	resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-}
+  configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+  }
 
-configurations {
+  configurations {
     all*.exclude group: 'org.neo4j.3rdparty.javax.ws.rs' , module: 'jsr311-api'
     all*.exclude group: 'javax.ws.rs' , module: 'jsr311-api'
     all*.exclude group: 'org.slf4j' , module: 'slf4j-nop'
     all*.exclude group: 'org.codehaus.groovy', module: 'groovy'
-}
+  }
 
-ext.versions = [
-  apoc 						: '3.3.0.2',
-	  assertj         : '3.8.0',
+  ext.versions = [
+    apoc             : '3.3.0.2',
+    assertj         : '3.8.0',
     assured         : '3.0.3',
     bytebuddy       : '1.7.5',
     commons_lang    : '2.6',
@@ -22,8 +22,8 @@ ext.versions = [
     eclipselink     : '2.6.3',
     governator      : '1.17.4',
     groovy          : '2.4.15',
-    guava           : '19.0',
-    guice           : '4.1.0',
+    guava           : '25.1-jre',
+    guice           : '4.2.0',
     hazelcast       : '3.8',
     jackson         : '2.8.9',
     jamon           : '2.81',
@@ -53,10 +53,9 @@ ext.versions = [
     vmlens          : '1.0.0',
     xebia           : '1.1',
     xmlunit         : '2.2.0',
-]
+  ]
 
-dependencies {
-
+  dependencies {
     // https://github.com/rzwitserloot/lombok/issues/1602
     //annotationProcessor("org.projectlombok:lombok:1.16.20")
     //compileOnly("org.projectlombok:lombok:1.16.20")
@@ -65,7 +64,7 @@ dependencies {
 
     implementation "org.slf4j:slf4j-api:${versions.slf4j}"
 
-    testImplementation (			  
+    testImplementation (
         "org.codehaus.groovy:groovy-all:${versions.groovy}",
         "junit:junit:${versions.junit}",
         "org.mockito:mockito-core:${versions.mockito}",
@@ -74,9 +73,9 @@ dependencies {
         "org.spockframework:spock-guice:${versions.spock}"
     )
 
-		testImplementation ("org.neo4j.procedure:apoc:${versions.apoc}"){
-	      exclude group: 'com.fasterxml.jackson.core', module: 'jackson-databind'
-	  }
+    testImplementation ("org.neo4j.procedure:apoc:${versions.apoc}"){
+        exclude group: 'com.fasterxml.jackson.core', module: 'jackson-databind'
+    }
 
     runtimeOnly (
         "ch.qos.logback:logback-classic:${versions.logback}",
@@ -87,120 +86,120 @@ dependencies {
     )
 
 
-	/*compile ("org.neo4j:neo4j-enterprise:${versions.neo4j}") {
-        exclude group: 'org.slf4j'
-        exclude group: 'org.neo4j', module: 'neo4j-cypher-compiler-2.3'
-        exclude group: 'org.neo4j', module: 'neo4j-cypher-compiler-3.0'
-        exclude group: 'org.neo4j', module: 'neo4j-cypher-frontend-2.3'
-        exclude group: 'org.neo4j', module: 'neo4j-cypher-frontend-3.0'
-    }
+    /*compile ("org.neo4j:neo4j-enterprise:${versions.neo4j}") {
+          exclude group: 'org.slf4j'
+          exclude group: 'org.neo4j', module: 'neo4j-cypher-compiler-2.3'
+          exclude group: 'org.neo4j', module: 'neo4j-cypher-compiler-3.0'
+          exclude group: 'org.neo4j', module: 'neo4j-cypher-frontend-2.3'
+          exclude group: 'org.neo4j', module: 'neo4j-cypher-frontend-3.0'
+      }
+
+      compile (
+          "org.neo4j:neo4j-ogm-core:${versions.neo4jOgm}",
+          "org.neo4j:neo4j-ogm-http-driver:${versions.neo4jOgm}",
+          "org.neo4j:neo4j-ogm-bolt-driver:${versions.neo4jOgm}",
+          "org.neo4j:neo4j-ogm-embedded-driver:${versions.neo4jOgm}"
+      )
 
     compile (
-        "org.neo4j:neo4j-ogm-core:${versions.neo4jOgm}",
-        "org.neo4j:neo4j-ogm-http-driver:${versions.neo4jOgm}",
-        "org.neo4j:neo4j-ogm-bolt-driver:${versions.neo4jOgm}",
-        "org.neo4j:neo4j-ogm-embedded-driver:${versions.neo4jOgm}"
-    )
+          "com.google.inject:guice:${versions.guice}",
+          "com.google.inject.extensions:guice-servlet:${versions.guice}",
+          "com.google.inject.extensions:guice-persist:${versions.guice}",
+          "com.google.inject.extensions:guice-multibindings:${versions.guice}",
+          "com.google.inject.extensions:guice-assistedinject:${versions.guice}"
+      )
 
-	compile (
-        "com.google.inject:guice:${versions.guice}",
-        "com.google.inject.extensions:guice-servlet:${versions.guice}",
-        "com.google.inject.extensions:guice-persist:${versions.guice}",
-        "com.google.inject.extensions:guice-multibindings:${versions.guice}",
-        "com.google.inject.extensions:guice-assistedinject:${versions.guice}"
-    )
+      compile (
+        "org.jboss.resteasy:resteasy-client:${versions.resteasy}",
+        "org.jboss.resteasy:resteasy-jaxrs:${versions.resteasy}",
+          "org.jboss.resteasy:resteasy-guice:${versions.resteasy}",
+          "org.jboss.resteasy:resteasy-html:${versions.resteasy}",
+          "org.jboss.resteasy:resteasy-jackson2-provider:${versions.resteasy}",
+          "org.jboss.resteasy:resteasy-multipart-provider:${versions.resteasy}"
+      )
+
+      compile (
+        "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:${versions.jackson}",
+          "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${versions.jackson}",
+          "com.fasterxml.jackson.datatype:jackson-datatype-joda:${versions.jackson}",
+          "com.xebia:jackson-lombok:${versions.xebia}"
+      )
+
+      compile (
+        "io.dropwizard.metrics:metrics-core:${versions.metrics}",
+        "io.dropwizard.metrics:metrics-healthchecks:${versions.metrics}",
+          "io.dropwizard.metrics:metrics-jvm:${versions.metrics}",
+          "io.dropwizard.metrics:metrics-servlets:${versions.metrics}",
+          "io.dropwizard.metrics:metrics-annotation:${versions.metrics}",
+          "com.palominolabs.metrics:metrics-guice:${versions.metricsguice}"
+      )
 
     compile (
-    	"org.jboss.resteasy:resteasy-client:${versions.resteasy}",
-    	"org.jboss.resteasy:resteasy-jaxrs:${versions.resteasy}",
-        "org.jboss.resteasy:resteasy-guice:${versions.resteasy}",
-        "org.jboss.resteasy:resteasy-html:${versions.resteasy}",
-        "org.jboss.resteasy:resteasy-jackson2-provider:${versions.resteasy}",
-        "org.jboss.resteasy:resteasy-multipart-provider:${versions.resteasy}"
+      "org.codehaus.groovy:groovy-all:${versions.groovy}",
+          "commons-beanutils:commons-beanutils:1.9.3",
+          "ch.qos.logback:logback-access:${versions.logback}",
+          "com.squareup.okhttp3:okhttp:${versions.okhttp}",
+          "com.smokejumperit.guice:core:${versions.smokejumperit}",
+      "org.slf4j:slf4j-api:${versions.slf4j}",
+      "org.slf4j:jul-to-slf4j:${versions.slf4j}",
+      "org.apache.commons:commons-lang3:${versions.commons_lang3}",
+      "commons-lang:commons-lang:${versions.commons_lang}",
+      "com.google.guava:guava:${versions.guava}",
+      "org.jasypt:jasypt:${versions.jasypt}"
     )
 
-    compile (
-    	"com.fasterxml.jackson.datatype:jackson-datatype-jdk8:${versions.jackson}",
-        "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${versions.jackson}",
-        "com.fasterxml.jackson.datatype:jackson-datatype-joda:${versions.jackson}",
-        "com.xebia:jackson-lombok:${versions.xebia}"
-    )
+    testCompile ("org.neo4j.test:neo4j-harness-enterprise:${versions.neo4j}"){
+          exclude group: 'org.slf4j'
+          exclude group: 'org.neo4j', module: 'neo4j-cypher-compiler-2.3'
+          exclude group: 'org.neo4j', module: 'neo4j-cypher-compiler-3.0'
+          exclude group: 'org.neo4j', module: 'neo4j-cypher-frontend-2.3'
+          exclude group: 'org.neo4j', module: 'neo4j-cypher-frontend-3.0'
+      }
 
-    compile (
-    	"io.dropwizard.metrics:metrics-core:${versions.metrics}",
-    	"io.dropwizard.metrics:metrics-healthchecks:${versions.metrics}",
-        "io.dropwizard.metrics:metrics-jvm:${versions.metrics}",
-        "io.dropwizard.metrics:metrics-servlets:${versions.metrics}",
-        "io.dropwizard.metrics:metrics-annotation:${versions.metrics}",
-        "com.palominolabs.metrics:metrics-guice:${versions.metricsguice}"
-    )
+    testCompile (
+          "org.neo4j:neo4j-ogm-test:${versions.neo4jOgm}"
+      )
 
-	compile (
-		"org.codehaus.groovy:groovy-all:${versions.groovy}",
-        "commons-beanutils:commons-beanutils:1.9.3",
-        "ch.qos.logback:logback-access:${versions.logback}",
-        "com.squareup.okhttp3:okhttp:${versions.okhttp}",
-        "com.smokejumperit.guice:core:${versions.smokejumperit}",
-		"org.slf4j:slf4j-api:${versions.slf4j}",
-		"org.slf4j:jul-to-slf4j:${versions.slf4j}",
-		"org.apache.commons:commons-lang3:${versions.commons_lang3}",
-		"commons-lang:commons-lang:${versions.commons_lang}",
-		"com.google.guava:guava:${versions.guava}",
-		"org.jasypt:jasypt:${versions.jasypt}"
-	)
+    testCompile (
+      "org.codehaus.groovy:groovy-all:${versions.groovy}",
+          "com.squareup.okhttp3:mockwebserver:${versions.okhttp}",
+      "junit:junit:${versions.junit}",
+        "org.mockito:mockito-core:${versions.mockito}",
+        "org.assertj:assertj-core:${versions.assertj}",
+      "org.spockframework:spock-core:${versions.spock}",
+          "org.spockframework:spock-guice:${versions.spock}",
+      "com.tngtech.java:junit-dataprovider:${versions.tngtech}",
+          "org.easymock:easymock:${versions.easymock}",
+          "com.jayway.jsonpath:json-path-assert:${versions.jayway}",
+          "org.xmlunit:xmlunit-core:${versions.xmlunit}",
+          "org.xmlunit:xmlunit-matchers:${versions.xmlunit}",
+          "net.javacrumbs.json-unit:json-unit:${versions.javacrumbs}",
+          "net.javacrumbs.json-unit:json-unit-fluent:${versions.javacrumbs}",
+          "net.bytebuddy:byte-buddy:${versions.bytebuddy}",
+          "org.objenesis:objenesis:${versions.objenesis}",
+          "com.vmlens:concurrent-junit:${versions.vmlens}",
+          "com.googlecode.junit-toolbox:junit-toolbox:${versions.junit_toolbox}"
+      )
 
-	testCompile ("org.neo4j.test:neo4j-harness-enterprise:${versions.neo4j}"){
-        exclude group: 'org.slf4j'
-        exclude group: 'org.neo4j', module: 'neo4j-cypher-compiler-2.3'
-        exclude group: 'org.neo4j', module: 'neo4j-cypher-compiler-3.0'
-        exclude group: 'org.neo4j', module: 'neo4j-cypher-frontend-2.3'
-        exclude group: 'org.neo4j', module: 'neo4j-cypher-frontend-3.0'
-    }
+      testCompile ("io.rest-assured:rest-assured:${versions.assured}"){
+          exclude group: 'org.codehaus.groovy'
+      }
 
-	testCompile (
-        "org.neo4j:neo4j-ogm-test:${versions.neo4jOgm}"
-    )
+      testCompile ("io.rest-assured:json-path:${versions.assured}"){
+          exclude group: 'org.codehaus.groovy'
+      }
 
-	testCompile (
-		"org.codehaus.groovy:groovy-all:${versions.groovy}",
-        "com.squareup.okhttp3:mockwebserver:${versions.okhttp}",
-		"junit:junit:${versions.junit}",
-    	"org.mockito:mockito-core:${versions.mockito}",
-    	"org.assertj:assertj-core:${versions.assertj}",
-		"org.spockframework:spock-core:${versions.spock}",
-        "org.spockframework:spock-guice:${versions.spock}",
-		"com.tngtech.java:junit-dataprovider:${versions.tngtech}",
-        "org.easymock:easymock:${versions.easymock}",
-        "com.jayway.jsonpath:json-path-assert:${versions.jayway}",
-        "org.xmlunit:xmlunit-core:${versions.xmlunit}",
-        "org.xmlunit:xmlunit-matchers:${versions.xmlunit}",
-        "net.javacrumbs.json-unit:json-unit:${versions.javacrumbs}",
-        "net.javacrumbs.json-unit:json-unit-fluent:${versions.javacrumbs}",
-        "net.bytebuddy:byte-buddy:${versions.bytebuddy}",
-        "org.objenesis:objenesis:${versions.objenesis}",
-        "com.vmlens:concurrent-junit:${versions.vmlens}",
-        "com.googlecode.junit-toolbox:junit-toolbox:${versions.junit_toolbox}"
-    )
+      testCompile(
+              "com.netflix.governator:governator-test-spock:${versions.governator}"
+      ) {
+          exclude group: 'com.cyrusinnovation', module: 'mockito-groovy-support'
+      }
 
-    testCompile ("io.rest-assured:rest-assured:${versions.assured}"){
-        exclude group: 'org.codehaus.groovy'
-    }
-
-    testCompile ("io.rest-assured:json-path:${versions.assured}"){
-        exclude group: 'org.codehaus.groovy'
-    }
-
-    testCompile(
-            "com.netflix.governator:governator-test-spock:${versions.governator}"
-    ) {
-        exclude group: 'com.cyrusinnovation', module: 'mockito-groovy-support'
-    }
-
-	runtime (
-		"ch.qos.logback:logback-classic:${versions.logback}",
-		"ch.qos.logback:logback-access:${versions.logback}",
-		"org.slf4j:log4j-over-slf4j:${versions.slf4j}",
-		"org.slf4j:jcl-over-slf4j:${versions.slf4j}",
-        "org.slf4j:jul-to-slf4j:${versions.slf4j}"
-	)       */
-}
+    runtime (
+      "ch.qos.logback:logback-classic:${versions.logback}",
+      "ch.qos.logback:logback-access:${versions.logback}",
+      "org.slf4j:log4j-over-slf4j:${versions.slf4j}",
+      "org.slf4j:jcl-over-slf4j:${versions.slf4j}",
+          "org.slf4j:jul-to-slf4j:${versions.slf4j}"
+    )       */
+  }
